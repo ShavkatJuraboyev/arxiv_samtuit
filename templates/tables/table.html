@@ -1,0 +1,153 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- DataTable with Buttons -->
+    <div class="card">
+        <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="card-header flex-column flex-md-row pb-0">
+                    <div class="head-label text-center">
+                        <h5 class="card-title mb-0">Ma'lumotlar</h5>
+                    </div>
+                    <div class="dt-action-buttons text-end pt-6 pt-md-0">
+                        <div class="dt-buttons btn-group flex-wrap">
+                            <a href="{% url 'add_student'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
+                                <span>
+                                    <i class="bx bx-plus bx-sm me-sm-2"></i>
+                                    <span class="d-none d-sm-inline-block">Ma'lumot qo'shish</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                            <label>
+                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                    <option value="7">7</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="75">75</option>
+                                    <option value="100">100</option>
+                                </select> element
+                            </label>
+                        </div>
+                    </div>
+                    <div
+                        class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0">
+                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                            <label>Qidirish:
+                                <input type="search" class="form-control" placeholder="qidirish..." aria-controls="DataTables_Table_0">
+                            </label></div>
+                    </div>
+                </div>
+                <table class="datatables-basic table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1391px;">
+                    <thead>
+                        <tr>
+                            <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1"
+                                style="width: 18px;" data-col="1" aria-label=""><input type="checkbox" class="form-check-input"></th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                style="width: 120px;" aria-label="Name: activate to sort column ascending">Talaba</th>
+                            {% for doc_type_name in document_types.values %}
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                style="width: 106px;" aria-label="{{ doc_type_name }}: activate to sort column ascending">{{ doc_type_name }}</th>
+                            {% endfor %}
+                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 116px;" aria-label="Actions">Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student_data in page_obj %}
+                        <tr class="odd">
+                            <td class="control dtr-hidden" tabindex="0" style="display: none;"></td>
+                            <td class="  dt-checkboxes-cell"><input type="checkbox" class="dt-checkboxes form-check-input"></td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center user-name">
+                                    <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ student_data.student.first_name }} {{ student_data.student.last_name }}</span><small
+                                            class="emp_post text-truncate text-muted">Talaba</small></div>
+                                </div>
+                            </td>
+                            {% for doc in student_data.documents %}
+                                <td>
+                                    {% if doc.is_available %}
+                                        <span class="badge  bg-label-success">Bor</span> <br>
+                                    {% else %}
+                                       <span class="badge  bg-label-warning">Yo'q</span> 
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                            <td>
+                                <div class="d-inline-block"><a href="" class="btn btn-icon dropdown-toggle hide-arrow me-1"
+                                        data-bs-toggle="dropdown" aria-expanded="false"><i
+                                            class="bx bx-dots-vertical-rounded bx-md"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end m-0">
+                                        <li><a href="" class="dropdown-item">Tafsilotlar</a></li>
+                                        <div class="dropdown-divider"></div>
+                                        <li><a href="" class="dropdown-item text-danger delete-record">Oʻchirish</a></li>
+                                    </ul>
+                                </div><a href="" class="btn btn-icon item-edit"><i class="bx bx-edit bx-md"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
+                            {{ page_obj.paginator.count }} ta elementdan {{ page_obj.start_index }} dan {{ page_obj.end_index }} gacha
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="paginate_button page-item previous">
+                                        <a href="?page=1" aria-controls="DataTables_Table_0" class="page-link"><i class="bx bx-chevrons-left bx-18px"></i></a>
+                                    </li>
+                                    <li class="paginate_button page-item previous">
+                                        <a href="?page={{ page_obj.previous_page_number }}" aria-controls="DataTables_Table_0" class="page-link"><i class="bx bx-chevron-left bx-18px"></i></a>
+                                    </li>
+                                {% else %}
+                                    <li class="paginate_button page-item previous disabled">
+                                        <a href="#" aria-controls="DataTables_Table_0" class="page-link"><i class="bx bx-chevron-left bx-18px"></i></a>
+                                    </li>
+                                {% endif %}
+                
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                        <li class="paginate_button page-item active">
+                                            <a href="#" class="page-link">{{ num }}</a>
+                                        </li>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                        <li class="paginate_button page-item">
+                                            <a href="?page={{ num }}&page_size={{ page_obj.paginator.per_page }}" class="page-link">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}                
+                                {% if page_obj.has_next %}
+                                    <li class="paginate_button page-item next">
+                                        <a href="?page={{ page_obj.next_page_number }}" aria-controls="DataTables_Table_0" class="page-link"><i class="bx bx-chevron-right bx-18px"></i></a>
+                                    </li>
+                                    <li class="paginate_button page-item next">
+                                        <a href="?page={{ page_obj.paginator.num_pages }}" aria-controls="DataTables_Table_0" class="page-link"><i class="bx bx-chevrons-right bx-18px"></i></a>
+                                    </li>
+                                {% else %}
+                                    <li class="paginate_button page-item next disabled">
+                                        <a href="#" aria-controls="DataTables_Table_0" class="page-link"><i class="bx bx-chevron-right bx-18px"></i></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

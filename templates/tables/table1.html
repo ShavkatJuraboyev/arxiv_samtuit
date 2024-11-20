@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talabalar va hujjatlar</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Talabalar va ularning hujjatlari</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Talaba</th>
+                {% for doc_type_name in document_types.values %}
+                    <th>{{ doc_type_name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for student_data in data %}
+                <tr>
+                    <td>{{ student_data.student.first_name }} {{ student_data.student.last_name }}</td>
+                    {% for doc in student_data.documents %}
+                        <td>
+                            {% if doc.is_available %}
+                                Bor <br>
+                                <small>({{ doc.location.room }}, {{ doc.location.shelf }}, {{ doc.location.row }})</small>
+                            {% else %}
+                                Yo'q
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

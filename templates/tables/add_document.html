@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Qo'shish</title>
+</head>
+<body>
+    <h1>Document qo'shish</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <h3>Student</h3>
+        {{ student_form.as_p }}
+
+        <h3>Location</h3>
+        {{ location_form.as_p }}
+
+        <h3>Document</h3>
+        {{ document_form.as_p }}
+
+        <button type="submit">Saqlash</button>
+    </form>
+
+    <hr>
+
+    <h2>Yangi student qo'shish</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ student_form.as_p }}
+        <button type="submit">Saqlash</button>
+    </form>
+
+    <hr>
+
+    <h2>Yangi Location qo'shish</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ location_form.as_p }}
+        <button type="submit">Saqlash</button>
+    </form>
+</body>
+</html>
