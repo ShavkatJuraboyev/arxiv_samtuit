@@ -9,7 +9,7 @@ class LocationAdmin(admin.ModelAdmin):
 class DocumentInline(admin.TabularInline):
     model = Document
     extra = 1
-    fields = ('doc_type', 'is_available', 'location')
+    fields = ('doc_type', 'is_available')
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):

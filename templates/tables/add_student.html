@@ -16,16 +16,19 @@
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="first_name" class="form-label">Ism:</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control" required placeholder="Ism...">
+                            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ student.first_name }}" required placeholder="Ism...">
                         </div>
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Familiya:</label>
-                            <input type="text" id="last_name" name="last_name" class="form-control" required placeholder="Familiya...">
+                            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ student.last_name }}" required placeholder="Familiya...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">O'chistva:</label>
+                            <input type="text" id="surname" name="surname" class="form-control" value="{{ student.surname }}" required placeholder="Otasini ismi...">
                         </div>
                         <div class="mb-3">
                             <label for="student_id" class="form-label">Student ID:</label>
-                            <input type="text" id="student_id" name="student_id"
-                                class="form-control {% if error %}is-invalid{% endif %}" required placeholder="388111111111...">
+                            <input type="text" id="student_id" name="student_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ student.student_id }}" required placeholder="T-1">
                             {% if error %}
                             <div class="invalid-feedback">
                                 {{ error }}
@@ -34,7 +37,17 @@
                         </div>
                         <div class="mb-3">
                             <label for="graduation_year" class="form-label">Tugatgan yil / Achisleniya bo'lgan yil:</label>
-                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" placeholder="2024">
+                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ student.graduation_year }}" placeholder="2024">
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Hujjat joylashuv joyi <button type="button" class="btn text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addLocationModal">
+                                <i class='bx bx-plus-medical'></i> </button></label>
+                                <select name="location" class="form-select">
+                                    <option value="" selected>Location tanlang</option>
+                                    {% for location in locations %}
+                                    <option value="{{ location.id }}">{{ location }}</option>
+                                    {% endfor %}
+                                </select>
                         </div>
 
                         <div class="head-label">
@@ -45,10 +58,6 @@
                                 <tr>
                                     <th>Dokument turi</th>
                                     <th>Bor yoki yo'q</th>
-                                    <th>Turgan joyi
-                                        <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                                        + </button>
-                                    </th>
                                     <th>O'chirish</th>
                                 </tr>
                             </thead>
@@ -56,38 +65,31 @@
                                 <tr>
                                     <td>
                                         <select name="doc_type[]" class="form-select">
-                                            <option value="diplom">Diplom</option>
-                                            <option value="atestat">Atestat</option>
-                                            <option value="pasport">Pasport kopiya</option>
-                                            <option value="ariza">Ariza</option>
-                                            <option value="buyruq">Buyruqdan ko‘chirma</option>
-                                            <option value="reyting">Reyting</option>
-                                            <option value="bmi">BMI</option>
+                                            <option value="diplom1" {% if doc.doc_type == "diplom1" %}selected{% endif %}>Diplom Universitet</option>
+                                            <option value="diplom1" {% if doc.doc_type == "diplom2" %}selected{% endif %}>Diplom Kollej</option>
+                                            <option value="atestat" {% if doc.doc_type == "atestat" %}selected{% endif %}>Atestat</option>
+                                            <option value="buyruq1" {% if doc.doc_type == "buyruq1" %}selected{% endif %}>Buyruqdan ko'chirma 1-kurs</option>
+                                            <option value="buyruq2" {% if doc.doc_type == "buyruq2" %}selected{% endif %}>Buyruqdan ko'chirma 2-kurs</option>
+                                            <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
+                                            <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
+                                            <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                                            <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
+                                            <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
+                                            <option value="md" {% if doc.doc_type == "md" %}selected{% endif %}>MD</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <input type="checkbox" name="is_available[]" class="form-check-input">
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <select name="location[]" class="form-select" id="locationSelect">
-                                                {% for location in locations %}
-                                                <option value="{{ location.id }}">{{ location }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <!-- Yangi joy qo'shish tugmasi -->
-                                            
-                                        </div>
+                                        <input type="checkbox" name="is_available[]" class="form-check-input" {% if doc.is_available %}checked{% endif %}>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="removeDocumentRow(this)">O'chirish</button>
+                                            onclick="removeDocumentRow(this)"><i class="bx bx-trash bx-md"></i> O'chirish</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table><br>
-                        <button type="button" class="btn btn-primary" onclick="addDocumentRow()">+ Bosha Document qo'shish</button>
-                        <button type="submit" class="btn btn-success ">Saqlash</button>
+                        <button type="button" class="btn btn-primary" onclick="addDocumentRow()"><i class='bx bx-plus-medical'></i> Bosha Document qo'shish</button>
+                        <button type="submit" class="btn btn-success"><i class='bx bxs-save' ></i> Saqlash</button>
                     </form>
                 </div>
                 <!-- Modal for Adding Locations -->
@@ -137,29 +139,24 @@
         newRow.innerHTML = `
             <td>
                 <select name="doc_type[]" class="form-select">
-                    <option value="diplom">Diplom</option>
-                    <option value="atestat">Atestat</option>
-                    <option value="pasport">Pasport kopiya</option>
-                    <option value="ariza">Ariza</option>
-                    <option value="buyruq">Buyruqdan ko‘chirma</option>
-                    <option value="reyting">Reyting</option>
-                    <option value="bmi">BMI</option>
+                    <option value="diplom1" {% if doc.doc_type == "diplom1" %}selected{% endif %}>Diplom Universitet</option>
+                    <option value="diplom1" {% if doc.doc_type == "diplom2" %}selected{% endif %}>Diplom Kollej</option>
+                    <option value="atestat" {% if doc.doc_type == "atestat" %}selected{% endif %}>Atestat</option>
+                    <option value="buyruq1" {% if doc.doc_type == "buyruq1" %}selected{% endif %}>Buyruqdan ko'chirma 1-kurs</option>
+                    <option value="buyruq2" {% if doc.doc_type == "buyruq2" %}selected{% endif %}>Buyruqdan ko'chirma 2-kurs</option>
+                    <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
+                    <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
+                    <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                    <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
+                    <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
+                    <option value="md" {% if doc.doc_type == "md" %}selected{% endif %}>MD</option>
                 </select>
             </td>
             <td>
-                <input type="checkbox" name="is_available[]" class="form-check-input">
+                <input type="checkbox" name="is_available[]" class="form-check-input" {% if doc.is_available %}checked{% endif %}>
             </td>
             <td>
-                <div class="d-flex align-items-center">
-                    <select name="location[]" class="form-select" id="locationSelect">
-                        {% for location in locations %}
-                        <option value="{{ location.id }}">{{ location }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </td>
-            <td>
-                <button type="button" class="btn btn-danger btn-sm" onclick="removeDocumentRow(this)">O'chirish</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeDocumentRow(this)"><i class="bx bx-trash bx-md"></i> O'chirish</button>
             </td>
         `;
 
