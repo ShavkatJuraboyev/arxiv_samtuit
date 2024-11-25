@@ -26,18 +26,18 @@
                 <div class="text-truncate">Ma'lumotlar</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item active">
+                <li class="menu-item {% if 'student' in segment %} active {% endif %}">
                     <a href="/" class="menu-link">
                         <div class="text-truncate">Talabalar</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="/" class="menu-link">
+                <li class="menu-item {% if 'employee' in segment %} active {% endif %}">
+                    <a href="{% url 'employee_documents_table' %}" class="menu-link ">
                         <div class="text-truncate">Xodimlar</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="/" class="menu-link">
+                <li class="menu-item {% if 'abuturiyent' in segment %} active {% endif %}">
+                    <a href="{% url 'abuturiyent_documents_table' %}" class="menu-link">
                         <div class="text-truncate">Abituriyent</div>
                     </a>
                 </li>

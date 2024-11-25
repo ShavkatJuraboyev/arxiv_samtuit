@@ -1,14 +1,14 @@
 {% extends 'base/base.html' %}
 {% block content %}
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="card-title mb-4">{{ student.first_name }} {{ student.last_name }} {{ student.surname }} ma'lumotlari</h4>
+    <h4 class="card-title mb-4">{{ employee.first_name }} {{ employee.last_name }} {{ employee.surname }} ma'lumotlari</h4>
     <div class="card">
         <div class="card-body">
-            <p><strong>Student ID:</strong> {{ student.student_id }}</p>
-            <p><strong>Tugatgan yil:</strong> {{ student.graduation_year }}</p>
-            <p><strong>Hona:</strong> {{ student.location.room }} - Xona</p>
-            <p><strong>Shkaf:</strong> {{ student.location.shelf }} - Shkaf</p>
-            <p><strong>Polka:</strong> {{ student.location.row }} - polka</p>
+            <p><strong>Xodim ID:</strong> {{ employee.employee_id }}</p>
+            <p><strong>Tugatgan yil:</strong> {{ employee.graduation_year }}</p>
+            <p><strong>Hona:</strong> {{ employee.location.room }} - Xona</p>
+            <p><strong>Shkaf:</strong> {{ employee.location.shelf }} - Shkaf</p>
+            <p><strong>Polka:</strong> {{ employee.location.row }} - polka</p>
             <h6>Hujjatlar:</h6>
             <table class="table table-bordered">
                 <thead>
@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for document in student.documents.all %}
+                    {% for document in employee.documents.all %}
                     <tr>
                         <td>{{ document.get_doc_type_display }}</td>
                         <td>{{ document.is_available|yesno:"Bor,Yo'q" }}</td>
@@ -26,7 +26,7 @@
                     {% endfor %}
                 </tbody>
             </table><hr>
-            <a href="{% url 'edit_student' student.id %}" class="btn btn-primary"><i class='bx bx-edit-alt'></i> Tahrirlash</a>
+            <a href="{% url 'edit_employee' employee.id %}" class="btn btn-primary"><i class='bx bx-edit-alt'></i> Tahrirlash</a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 <i class="bx bx-trash bx-md"></i> O'chirish
             </button>
@@ -36,7 +36,7 @@
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{% url 'delete_student' student.id %}" method="post">
+            <form action="{% url 'delete_employee' employee.id %}" method="post">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">

@@ -14,7 +14,7 @@
                     </div>
                     <div class="dt-action-buttons text-end pt-6 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
-                            <a href="{% url 'add_student'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
+                            <a href="{% url 'add_employee'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
                                 <span>
                                     <i class="bx bx-plus bx-sm me-sm-2"></i>
                                     <span class="d-none d-sm-inline-block">Ma'lumot qo'shish</span>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0">
-                        <form method="get" action="{% url 'student_documents_table' %}">
+                        <form method="get" action="{% url 'employee_documents_table' %}">
                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <label>Qidirish:
                                     <input type="search"  name="q" class="form-control" placeholder="qidirish..." aria-controls="DataTables_Table_0">
@@ -56,43 +56,29 @@
                     aria-describedby="DataTables_Table_1_info" style="width: 1392px;">
                     <thead>
                         <tr>
-                            <th rowspan="2" colspan="1">T/R</th>
-                            <th rowspan="2" class="sorting sorting_asc" colspan="1"
-                                aria-label="Name: activate to sort column descending" style="width: 166px;">Talaba
-                            </th>
-                            <th colspan="3" rowspan="1">Diplom</th>
-                            <th colspan="5" rowspan="1">Buyruqdan ko'chirma</th>
-                            <th rowspan="2" colspan="1" style="width: 50px;">Reyting</th>
-                            <th rowspan="2" colspan="1" style="width: 50px;">BMI</th>
-                            <th rowspan="2" colspan="1" style="width: 50px;">MD</th>
-                            <th rowspan="2" class="sorting_disabled" colspan="1" style="width: 88px;">Harakat</th>
-                        </tr>
-                        <tr>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">Universitet</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">kollej</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">Atestat</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">1-kurs</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">2-kurs</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">3-kurs</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">4-kurs</th>
-                            <th class="sorting" rowspan="1" colspan="1" style="width: 50px;">5-kurs</th>
+                            <th >T/R</th>
+                            <th class="sorting sorting_asc" aria-label="Name: activate to sort column descending" style="width: 166px;">Xodimlar</th>
+                            <th>Shaxsiy varaqa</th>
+                            <th>Turdavoy</th>
+                            <th>T-2</th>
+                            <th class="sorting_disabled" style="width: 88px;">Harakat</th>
                         </tr>
                     </thead>
                     <tbody id="content">
-                        {% for student_data in page_obj %}
+                        {% for employee_data in page_obj %}
                         <tr>
                             <td>
                                 {{ forloop.counter }}
                             </td>
                             <td>
-                                <a href="{% url 'view_student' student_data.student.id %}">
+                                <a href="{% url 'view_employee' employee_data.employee.id %}">
                                     <div class="d-flex justify-content-start align-items-center user-name">
-                                        <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ student_data.student.first_name }} {{ student_data.student.last_name }}</span><small
-                                                class="emp_post text-truncate text-muted">{{student_data.student.surname}}</small></div>
+                                        <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ employee_data.employee.first_name }} {{ employee_data.employee.last_name }}</span><small
+                                                class="emp_post text-truncate text-muted">{{employee_data.employee.surname}}</small></div>
                                     </div>
                                 </a>
                             </td>
-                            {% for doc in student_data.documents %}
+                            {% for doc in employee_data.documents %}
                                 <td>
                                     {% if doc.is_available %}
                                         <span class="badge  bg-label-success">Bor</span> <br>
@@ -105,10 +91,10 @@
                                 <div class="d-inline-block"><a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow me-1"
                                         data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded bx-md"></i></a>
                                     <div class="dropdown-menu dropdown-menu-end m-0">
-                                        <a href="{% url 'view_student' student_data.student.id %}" class="dropdown-item">Ko'rish <i class="bx bx-show bx-md"></i></a>
-                                        <a href="{% url 'edit_student' student_data.student.id %}" class="dropdown-item">Taxrirlash <i class="bx bx-edit bx-md"></i></a>
+                                        <a href="{% url 'view_employee' employee_data.employee.id %}" class="dropdown-item">Ko'rish <i class="bx bx-show bx-md"></i></a>
+                                        <a href="{% url 'edit_employee' employee_data.employee.id %}" class="dropdown-item">Taxrirlash <i class="bx bx-edit bx-md"></i></a>
                                         <div class="dropdown-divider"></div>
-                                        <button type="button" class="dropdown-item text-danger delete-record" data-bs-toggle="modal" data-bs-target="#deleteModal" data-student-id="{{ student_data.student.id }}">
+                                        <button type="button" class="dropdown-item text-danger delete-record" data-bs-toggle="modal" data-bs-target="#deleteModal" data-employee-id="{{ employee_data.employee.id }}">
                                             O'chirish <i class="bx bx-trash bx-md"></i>
                                         </button>
                                     </div>
@@ -204,8 +190,8 @@
 
         deleteModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            const studentId = button.getAttribute('data-student-id');
-            deleteForm.action = '{% url "delete_student" 0 %}'.replace('/0/', '/' + studentId + '/');
+            const employeeId = button.getAttribute('data-employee-id');
+            deleteForm.action = '{% url "delete_employee" 0 %}'.replace('/0/', '/' + employeeId + '/');
         });
     });
 </script>

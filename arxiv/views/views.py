@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from ..forms import LocationForm, LoginForm
-from ..models import Student, Document, Location
+from arxiv.forms import LocationForm, LoginForm
+from arxiv.models import Student, Document, Location
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.http import HttpResponseNotFound, JsonResponse
@@ -35,6 +35,7 @@ def user_login(request):
     else:
         forms = LoginForm()
     return render(request, 'tables/login.html')
+
 
 @login_decorator
 def logOut(request):
@@ -75,7 +76,7 @@ def student_documents_table(request):
     paginator = Paginator(data, page_size)  # Paginatorni yaratish
     page_number = request.GET.get('page')  # Foydalanuvchi tanlagan sahifa raqamini olish
     page_obj = paginator.get_page(page_number)
-    ctx = {'page_obj':page_obj, 'document_types':document_types, 'students': students,}
+    ctx = {'page_obj':page_obj, 'document_types':document_types, 'students': students, 'segment':'student'}
     return render(request, 'tables/table.html', ctx)
 
 @login_decorator
@@ -86,7 +87,7 @@ def view_student(request, student_id):
     except Student.DoesNotExist:
         return HttpResponseNotFound("Talaba topilmadi.")
 
-    return render(request, "tables/view_student.html", {"student": student, "documents": documents})
+    return render(request, "tables/view_student.html", {"student": student, "documents": documents, 'segment':'student'})
 
 @login_decorator
 def add_student(request):
@@ -122,7 +123,7 @@ def add_student(request):
 
         return redirect("student_documents_table")  # Talabalar ro'yxatiga yo'naltirish
     locations = Location.objects.all()
-    return render(request, "tables/add_student.html",  {"locations": locations})
+    return render(request, "tables/add_student.html",  {"locations": locations, 'segment':'student'})
 
 @login_decorator
 @csrf_exempt
@@ -191,7 +192,7 @@ def edit_student(request, student_id):
 
         return redirect("student_documents_table")  # Talabalar ro'yxatiga yo'naltirish
 
-    return render(request, "tables/edit_student.html", {"student": student, "locations": locations})
+    return render(request, "tables/edit_student.html", {"student": student, "locations": locations, 'segment':'student'})
 
 @login_decorator
 def add_location(request):

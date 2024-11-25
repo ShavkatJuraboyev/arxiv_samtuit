@@ -1,0 +1,190 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}    
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- DataTable with Buttons -->
+    <div class="card">
+        <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="container mt-5">
+                    <div class="head-label">
+                        <h4 class="card-title mb-0">Student qo'shish</h4>
+                    </div>
+                    <form action="{% url 'add_abuturiyent' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">Ism:</label>
+                            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ abuturiyent.first_name }}" required placeholder="Ism...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Familiya:</label>
+                            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ abuturiyent.last_name }}" required placeholder="Familiya...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="surname" class="form-label">O'chistva:</label>
+                            <input type="text" id="surname" name="surname" class="form-control" value="{{ abuturiyent.surname }}" required placeholder="Otasini ismi...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="abuturiyent_id" class="form-label">Student ID:</label>
+                            <input type="text" id="abuturiyent_id" name="abuturiyent_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ abuturiyent.abuturiyent_id }}" required placeholder="T-1">
+                            {% if error %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="graduation_year" class="form-label">Achisleniya bo'lgan yil:</label>
+                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ abuturiyent.graduation_year }}" placeholder="2024">
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Hujjat joylashuv joyi <button type="button" class="btn text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addLocationModal">
+                                <i class='bx bx-plus-medical'></i> </button></label>
+                                <select name="location" class="form-select">
+                                    <option value="" selected>Location tanlang</option>
+                                    {% for location in locations %}
+                                    <option value="{{ location.id }}">{{ location }}</option>
+                                    {% endfor %}
+                                </select>
+                        </div>
+
+                        <div class="head-label">
+                            <h5 class="card-title mb-0">Dokument qo'shish</h5>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Dokument turi</th>
+                                    <th>Bor yoki yo'q</th>
+                                    <th>O'chirish</th>
+                                </tr>
+                            </thead>
+                            <tbody id="documentTableBody">
+                                <tr>
+                                    <td>
+                                        <select name="doc_type[]" class="form-select">
+                                            <option value="diplom" {% if doc.doc_type == "diplom" %}selected{% endif %}>Diplom</option>
+                                            <option value="atestatsiya" {% if doc.doc_type == "atestatsiya" %}selected{% endif %}>Atestatsiya</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="is_available[]" class="form-check-input" {% if doc.is_available %}checked{% endif %}>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="removeDocumentRow(this)"><i class="bx bx-trash bx-md"></i> O'chirish</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table><br>
+                        <button type="button" class="btn btn-primary" onclick="addDocumentRow()"><i class='bx bx-plus-medical'></i> Bosha Document qo'shish</button>
+                        <button type="submit" class="btn btn-success"><i class='bx bxs-save' ></i> Saqlash</button>
+                    </form>
+                </div>
+                <!-- Modal for Adding Locations -->
+                <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="addLocationForm">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addLocationLabel">Yangi joy qo'shish</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="room" class="form-label">Hona</label>
+                                        <input type="text" id="room" name="room" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="shelf" class="form-label">Shkaf</label>
+                                        <input type="text" id="shelf" name="shelf" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="row" class="form-label">Polka</label>
+                                        <input type="text" id="row" name="row" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Yopish</button>
+                                    <button type="submit" class="btn btn-primary">Saqlash</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script defer>
+    // Document qo'shish uchun yangi satr qo'shish funksiyasi
+    function addDocumentRow() {
+        const tableBody = document.getElementById("documentTableBody");
+        const newRow = document.createElement("tr");
+
+        newRow.innerHTML = `
+            <td>
+                <select name="doc_type[]" class="form-select">
+                    <option value="diplom" {% if doc.doc_type == "diplom" %}selected{% endif %}>Diplom</option>
+                    <option value="atestatsiya" {% if doc.doc_type == "atestatsiya" %}selected{% endif %}>Atestatsiya</option>
+                </select>
+            </td>
+            <td>
+                <input type="checkbox" name="is_available[]" class="form-check-input" {% if doc.is_available %}checked{% endif %}>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeDocumentRow(this)"><i class="bx bx-trash bx-md"></i> O'chirish</button>
+            </td>
+        `;
+
+        tableBody.appendChild(newRow);
+    }
+
+    // Document qatorini o'chirish funksiyasi
+    function removeDocumentRow(button) {
+        const row = button.closest("tr");
+        row.remove();
+    }
+</script>
+<script>
+    document.getElementById("addLocationForm").addEventListener("submit", function (event) {
+event.preventDefault();
+const formData = new FormData(this);
+
+fetch("{% url 'add_location' %}", {
+    method: "POST",
+    body: formData,
+    headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+    },
+})
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.success) {
+            // Add the new location to the dropdown
+            const locationSelect = document.getElementById("locationSelect");
+            const newOption = document.createElement("option");
+            newOption.value = data.location.id;
+            newOption.textContent = `Hona: ${data.location.room}, Shkaf: ${data.location.shelf}, Polka: ${data.location.row}`;
+            locationSelect.appendChild(newOption);
+
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById("addLocationModal"));
+            modal.hide();
+
+            // Clear the form
+            this.reset();
+        } else {
+            alert("Xatolik yuz berdi!");
+        }
+    });
+});
+
+</script>
+{% endblock content %}
+    
