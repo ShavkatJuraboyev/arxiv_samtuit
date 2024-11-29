@@ -56,8 +56,9 @@
                     aria-describedby="DataTables_Table_1_info" style="width: 1392px;">
                     <thead>
                         <tr>
-                            <th >T/R</th>
-                            <th class="sorting sorting_asc">Abuturiyent</th>
+                            <th style="width: 20px;">T/R</th>
+                            <th style="width: 88px;">Abituriyent</th>
+                            <th class="sorting sorting_asc">Abituriyent</th>
                             <th>Diplom</th>
                             <th>Atestatsiya</th>
                             <th class="sorting_disabled" style="width: 88px;">Harakat</th>
@@ -68,6 +69,9 @@
                         <tr>
                             <td>
                                 {{ forloop.counter }}
+                            </td>
+                            <td>
+                                {{ abuturiyent_data.abuturiyent.abuturiyent_id }}
                             </td>
                             <td>
                                 <a href="{% url 'view_abuturiyent' abuturiyent_data.abuturiyent.id %}">

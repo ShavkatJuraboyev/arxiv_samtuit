@@ -37,12 +37,12 @@ def user_login(request):
     return render(request, 'tables/login.html')
 
 
-@login_decorator
+
 def logOut(request):
     logout(request)
     return redirect("user_login")
 
-@login_decorator
+
 def student_documents_table(request):
     students = Student.objects.all()[::-1] # barcha talabalar malumotni olish
     document_types = dict(Document.DOCUMENT_TYPES) # Hujjat turli 
@@ -79,7 +79,7 @@ def student_documents_table(request):
     ctx = {'page_obj':page_obj, 'document_types':document_types, 'students': students, 'segment':'student'}
     return render(request, 'tables/table.html', ctx)
 
-@login_decorator
+
 def view_student(request, student_id):
     try:
         student = Student.objects.get(id=student_id)
@@ -89,7 +89,7 @@ def view_student(request, student_id):
 
     return render(request, "tables/view_student.html", {"student": student, "documents": documents, 'segment':'student'})
 
-@login_decorator
+
 def add_student(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -125,7 +125,7 @@ def add_student(request):
     locations = Location.objects.all()
     return render(request, "tables/add_student.html",  {"locations": locations, 'segment':'student'})
 
-@login_decorator
+
 @csrf_exempt
 def add_location(request):
     if request.method == "POST":
@@ -133,17 +133,22 @@ def add_location(request):
         shelf = request.POST.get("shelf")
         row = request.POST.get("row")
 
-        # Create and save the location
-        location = Location.objects.create(room=room, row=row, shelf=shelf)
-        return JsonResponse({"success": True, "location": {
-            "id": location.id,
-            "room": location.room,
-            "row": location.row,
-            "shelf": location.shelf,
-        }})
-    return JsonResponse({"success": False})
+        # Yangi joyni yaratish
+        location = Location.objects.create(room=room, shelf=shelf, row=row)
 
-@login_decorator
+        # Javob qaytarish
+        return JsonResponse({
+            'success': True,
+            'location': {
+                'id': location.id,
+                'room': location.room,
+                'shelf': location.shelf,
+                'row': location.row,
+            }
+        })
+    return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+
 def edit_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     locations = Location.objects.all()
@@ -194,18 +199,8 @@ def edit_student(request, student_id):
 
     return render(request, "tables/edit_student.html", {"student": student, "locations": locations, 'segment':'student'})
 
-@login_decorator
-def add_location(request):
-    if request.method == "POST":
-        room = request.POST.get("room")
-        shelf = request.POST.get("shelf")
-        row = request.POST.get("row")
 
-        # Yangi joyni yaratish
-        Location.objects.create(room=room, shelf=shelf, row=row)
-        return redirect(request.META.get('HTTP_REFERER', '/'))  # Avvalgi sahifaga qaytish
-
-@login_decorator  
+  
 def delete_student(request, student_id):
     student = Student.objects.get(id=student_id)
     student.delete()

@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 
 
-@login_decorator
+
 def employee_documents_table(request):
     employees = Employee.objects.all()[::-1] # barcha talabalar malumotni olish
     document_types = dict(DocumentEmployee.DOCUMENT_TYPES) # Hujjat turli 
@@ -49,7 +49,7 @@ def employee_documents_table(request):
     ctx = {'page_obj':page_obj, 'document_types':document_types, 'employees': employees, 'segment':'employee'}
     return render(request, 'employee/table.html', ctx)
 
-@login_decorator
+
 def view_employee(request, employee_id):
     try:
         employee = Employee.objects.get(id=employee_id)
@@ -59,7 +59,7 @@ def view_employee(request, employee_id):
 
     return render(request, "employee/view_employee.html", {"employee": employee, "documents": documents, 'segment':'employee'})
 
-@login_decorator
+
 def add_employee(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -95,7 +95,7 @@ def add_employee(request):
     locations = Location.objects.all()
     return render(request, "employee/add_employee.html",  {"locations": locations, 'segment':'employee'})
 
-@login_decorator
+
 def edit_employee(request, employee_id):
     employee = get_object_or_404(Employee, id=employee_id)
     locations = Location.objects.all()
@@ -146,7 +146,7 @@ def edit_employee(request, employee_id):
 
     return render(request, "employee/edit_employee.html", {"employee": employee, "locations": locations, 'segment':'employee'})
 
-@login_decorator  
+  
 def delete_employee(request, employee_id):
     employee = Employee.objects.get(id=employee_id)
     employee.delete()

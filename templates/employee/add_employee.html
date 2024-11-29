@@ -10,7 +10,7 @@
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <div class="container mt-5">
                     <div class="head-label">
-                        <h4 class="card-title mb-0">Student qo'shish</h4>
+                        <h4 class="card-title mb-0">Xodim qo'shish</h4>
                     </div>
                     <form action="{% url 'add_employee' %}" method="post">
                         {% csrf_token %}
@@ -27,7 +27,7 @@
                             <input type="text" id="surname" name="surname" class="form-control" value="{{ employee.surname }}" required placeholder="Otasini ismi...">
                         </div>
                         <div class="mb-3">
-                            <label for="employee_id" class="form-label">Student ID:</label>
+                            <label for="employee_id" class="form-label">Xodim ID:</label>
                             <input type="text" id="employee_id" name="employee_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ employee.employee_id }}" required placeholder="T-1">
                             {% if error %}
                             <div class="invalid-feedback">
@@ -36,7 +36,7 @@
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label for="graduation_year" class="form-label">Achisleniya bo'lgan yil:</label>
+                            <label for="graduation_year" class="form-label">Ishdab ketgan yil:</label>
                             <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ employee.graduation_year }}" placeholder="2024">
                         </div>
                         <div class="mb-3">
@@ -65,9 +65,10 @@
                                 <tr>
                                     <td>
                                         <select name="doc_type[]" class="form-select">
-                                            <option value="shaxsiy_varaqa" {% if doc.doc_type == "shaxsiy_varaqa" %}selected{% endif %}>Shaxsiy varaqa</option>
+                                            <option value="" selected>-----------</option>
                                             <option value="turdavoy" {% if doc.doc_type == "turdavoy" %}selected{% endif %}>Turdavoy</option>
                                             <option value="t-2" {% if doc.doc_type == "t-2" %}selected{% endif %}>T-2</option>
+                                            <option value="kadrlar" {% if doc.doc_type == "kadrlar" %}selected{% endif %}>Kadrlar</option>
                                         </select>
                                     </td>
                                     <td>
@@ -131,9 +132,10 @@
         newRow.innerHTML = `
             <td>
                 <select name="doc_type[]" class="form-select">
-                    <option value="shaxsiy_varaqa" {% if doc.doc_type == "shaxsiy_varaqa" %}selected{% endif %}>Shaxsiy varaqa</option>
-                    <option value="turdavoy" {% if doc.doc_type == "Turdavoy" %}selected{% endif %}>Diplom Kollej</option>
+                    <option value="" selected>-----------</option>
+                    <option value="turdavoy" {% if doc.doc_type == "turdavoy" %}selected{% endif %}>Turdavoy</option>
                     <option value="t-2" {% if doc.doc_type == "t-2" %}selected{% endif %}>T-2</option>
+                    <option value="kadrlar" {% if doc.doc_type == "kadrlar" %}selected{% endif %}>Kadrlar</option>
                 </select>
             </td>
             <td>

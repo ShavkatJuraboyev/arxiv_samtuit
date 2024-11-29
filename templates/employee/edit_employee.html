@@ -157,6 +157,7 @@
         newRow.innerHTML = `
             <td>
                 <select name="new_doc_type[]" class="form-select">
+                    <option value="" selected>-----------</option>
                     {% for value, label in employee.documents.model.DOCUMENT_TYPES %}
                         <option value="{{ value }}">{{ label }}</option>
                     {% endfor %}
@@ -207,7 +208,7 @@
         .then(data => {
             // Javobni qayta ishlash
             console.log(data);
-        })
+        }) 
         .catch(error => {
             console.error('Xato:', error);
         });

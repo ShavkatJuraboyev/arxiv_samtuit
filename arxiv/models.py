@@ -30,6 +30,7 @@ class Document(models.Model):
         ('buyruq3', 'Buyruqdan ko\'chirma 3-kurs'),
         ('buyruq4', 'Buyruqdan ko\'chirma 4-kurs'),
         ('buyruq5', 'Buyruqdan ko\'chirma 5-kurs'),
+        ('achsleniya', 'Achisleniya'),
         ('reyting', 'Reyting'),
         ('bmi', 'BMI'),
         ('md', 'MD'),
@@ -55,9 +56,9 @@ class Employee(models.Model):
  
 class DocumentEmployee(models.Model):
     DOCUMENT_TYPES = [
-        ('shaxsiy_varaqa', 'Shaxsiy varaqa'),
         ('turdavoy', 'Turdavoy'),
         ('t-2', 'T-2'),
+        ('kadrlar', 'Kadrlar'),
     ]
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='documents')
     doc_type = models.CharField(max_length=20, choices=DOCUMENT_TYPES)

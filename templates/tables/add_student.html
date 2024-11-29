@@ -65,6 +65,7 @@
                                 <tr>
                                     <td>
                                         <select name="doc_type[]" class="form-select">
+                                            <option value="" selected>-----------</option>
                                             <option value="diplom1" {% if doc.doc_type == "diplom1" %}selected{% endif %}>Diplom Universitet</option>
                                             <option value="diplom1" {% if doc.doc_type == "diplom2" %}selected{% endif %}>Diplom Kollej</option>
                                             <option value="atestat" {% if doc.doc_type == "atestat" %}selected{% endif %}>Atestat</option>
@@ -73,6 +74,7 @@
                                             <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
                                             <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
                                             <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                                            <option value="achsleniya" {% if doc.doc_type == "achsleniya" %}selected{% endif %}>Achsleniya</option>
                                             <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
                                             <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
                                             <option value="md" {% if doc.doc_type == "md" %}selected{% endif %}>MD</option>
@@ -139,6 +141,7 @@
         newRow.innerHTML = `
             <td>
                 <select name="doc_type[]" class="form-select">
+                    <option value="" selected>-----------</option>
                     <option value="diplom1" {% if doc.doc_type == "diplom1" %}selected{% endif %}>Diplom Universitet</option>
                     <option value="diplom1" {% if doc.doc_type == "diplom2" %}selected{% endif %}>Diplom Kollej</option>
                     <option value="atestat" {% if doc.doc_type == "atestat" %}selected{% endif %}>Atestat</option>
@@ -147,6 +150,7 @@
                     <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
                     <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
                     <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                    <option value="achsleniya" {% if doc.doc_type == "achsleniya" %}selected{% endif %}>Achsleniya</option>
                     <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
                     <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
                     <option value="md" {% if doc.doc_type == "md" %}selected{% endif %}>MD</option>
@@ -169,37 +173,49 @@
         row.remove();
     }
 </script>
+
+<!-- Avval jQuery kutubxonasini yuklang -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- So'ngra DataTables kutubxonasini yuklang (agar ishlatayotgan bo'lsangiz) -->
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
 <script>
     document.getElementById("addLocationForm").addEventListener("submit", function (event) {
-event.preventDefault();
-const formData = new FormData(this);
+    event.preventDefault();
+    const formData = new FormData(this);
 
-fetch("{% url 'add_location' %}", {
-    method: "POST",
-    body: formData,
-    headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
-    },
-})
+    fetch("{% url 'add_location' %}", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+        },
+    })
     .then((response) => response.json())
     .then((data) => {
         if (data.success) {
-            // Add the new location to the dropdown
+            // Yangi joyni qo'shish
             const locationSelect = document.getElementById("locationSelect");
             const newOption = document.createElement("option");
             newOption.value = data.location.id;
             newOption.textContent = `Hona: ${data.location.room}, Shkaf: ${data.location.shelf}, Polka: ${data.location.row}`;
             locationSelect.appendChild(newOption);
 
-            // Close the modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById("addLocationModal"));
-            modal.hide();
+            // Modalni yopish
+            const modalElement = document.getElementById("addLocationModal");
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+            modalInstance.hide();
 
-            // Clear the form
+            // Formani tozalash
             this.reset();
         } else {
-            alert("Xatolik yuz berdi!");
+            alert("Xatolik yuz berdi!"); // Yoki serverdagi xatolikni ko'rsating
         }
+    })
+    .catch((error) => {
+        console.error("Xato yuz berdi:", error);
+        alert("Xatolik yuz berdi!");
     });
 });
 

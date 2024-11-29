@@ -157,6 +157,7 @@
         newRow.innerHTML = `
             <td>
                 <select name="new_doc_type[]" class="form-select">
+                    <option value="" selected>-----------</option>
                     {% for value, label in student.documents.model.DOCUMENT_TYPES %}
                         <option value="{{ value }}">{{ label }}</option>
                     {% endfor %}
@@ -195,7 +196,7 @@
         };
 
         // AJAX so'rovini yuborish, CSRF tokeni headerda qo'shilgan holda
-        fetch('/update_document_availability/', {
+        fetch('/update/document/availability/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

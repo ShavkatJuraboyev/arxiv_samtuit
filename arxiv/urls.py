@@ -32,7 +32,7 @@ urlpatterns = [
     path('add/employee/', add_employee, name='add_employee'),
     path("employee/<int:employee_id>/edit/", edit_employee, name="edit_employee"),
     path('employee/<int:employee_id>/delete/', delete_employee, name='delete_employee'),
-    path('update/document/employee/availability', update_document_employee_availability, name='update_document_employee_availability'),
+    path('update/document/employee/availability/', update_document_employee_availability, name='update_document_employee_availability'),
 
     path('abuturiyent/documents/table/', abuturiyent_documents_table, name="abuturiyent_documents_table"),
     path('abuturiyent/<int:abuturiyent_id>/', view_abuturiyent, name='view_abuturiyent'),

@@ -56,11 +56,12 @@
                     aria-describedby="DataTables_Table_1_info" style="width: 1392px;">
                     <thead>
                         <tr>
-                            <th >T/R</th>
-                            <th class="sorting sorting_asc" aria-label="Name: activate to sort column descending" style="width: 166px;">Xodimlar</th>
-                            <th>Shaxsiy varaqa</th>
+                            <th style="width: 20px;">T/R</th>
+                            <th style="width: 88px;">Xodim ID</th>
+                            <th >Xodimlar</th>
                             <th>Turdavoy</th>
                             <th>T-2</th>
+                            <th>Kadrlar</th>
                             <th class="sorting_disabled" style="width: 88px;">Harakat</th>
                         </tr>
                     </thead>
@@ -69,6 +70,9 @@
                         <tr>
                             <td>
                                 {{ forloop.counter }}
+                            </td>
+                            <td>
+                                {{ employee_data.employee.employee_id }} 
                             </td>
                             <td>
                                 <a href="{% url 'view_employee' employee_data.employee.id %}">
