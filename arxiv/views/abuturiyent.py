@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 
 
-
+@login_decorator
 def abuturiyent_documents_table(request):
     abuturiyents = Abuturiyent.objects.all()[::-1] # barcha talabalar malumotni olish
     document_types = dict(DocumentAbuturiyent.DOCUMENT_TYPES) # Hujjat turli 
@@ -49,7 +49,7 @@ def abuturiyent_documents_table(request):
     ctx = {'page_obj':page_obj, 'document_types':document_types, 'abuturiyents': abuturiyents, 'segment':'abuturiyent'}
     return render(request, 'abuturiyent/table.html', ctx)
 
-
+@login_decorator
 def view_abuturiyent(request, abuturiyent_id):
     try:
         abuturiyent = Abuturiyent.objects.get(id=abuturiyent_id)
@@ -59,7 +59,7 @@ def view_abuturiyent(request, abuturiyent_id):
 
     return render(request, "abuturiyent/view_abuturiyent.html", {"abuturiyent": abuturiyent, "documents": documents, 'segment':'abuturiyent'})
 
-
+@login_decorator
 def add_abuturiyent(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -95,7 +95,7 @@ def add_abuturiyent(request):
     locations = Location.objects.all()
     return render(request, "abuturiyent/add_abuturiyent.html",  {"locations": locations, 'segment':'abuturiyent'})
 
-
+@login_decorator
 def edit_abuturiyent(request, abuturiyent_id):
     abuturiyent = get_object_or_404(Abuturiyent, id=abuturiyent_id)
     locations = Location.objects.all()
@@ -147,13 +147,13 @@ def edit_abuturiyent(request, abuturiyent_id):
     return render(request, "abuturiyent/edit_abuturiyent.html", {"abuturiyent": abuturiyent, "locations": locations, 'segment':'abuturiyent'})
 
 
-  
+@login_decorator
 def delete_abuturiyent(request, abuturiyent_id):
     abuturiyent = Abuturiyent.objects.get(id=abuturiyent_id)
     abuturiyent.delete()
     return redirect("abuturiyent_documents_table")
 
-
+@login_decorator
 @csrf_exempt
 def update_document_abuturiyent_availability(request):
     if request.method == 'POST':
