@@ -14,7 +14,7 @@
                     </div>
                     <div class="dt-action-buttons text-end pt-6 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
-                            <a href="{% url 'add_abuturiyent'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
+                            <a href="{% url 'add_magister'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
                                 <span>
                                     <i class="bx bx-plus bx-sm me-sm-2"></i>
                                     <span class="d-none d-sm-inline-block">Ma'lumot qo'shish</span>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0">
-                        <form method="get" action="{% url 'abuturiyent_documents_table' %}">
+                        <form method="get" action="{% url 'magister_documents_table' %}">
                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <label>Qidirish:
                                     <input type="search"  name="q" class="form-control" placeholder="qidirish..." aria-controls="DataTables_Table_0">
@@ -56,36 +56,44 @@
                     aria-describedby="DataTables_Table_1_info" style="width: 1392px;">
                     <thead>
                         <tr>
-                            <th style="width: 20px;">T/R</th>
-                            <th style="width: 88px;">Abituriyent ID</th>
-                            <th class="sorting sorting_asc">Abituriyent</th>
-                            <th>Tugilgan yili</th>
-                            <th>Diplom</th>
-                            <th>Atestatsiya</th>
-                            <th class="sorting_disabled" style="width: 88px;">Harakat</th>
+                            <th rowspan="2" colspan="1" style="width: 15px;">T/R</th>
+                            <th rowspan="2" colspan="1" style="width: 100px;">Magistr ID</th>
+                            <th rowspan="2" colspan="1" style="width: 150px;">Magistr
+                            </th>
+                            <th colspan="3" rowspan="1">Diplom</th>
+                            <th colspan="2" rowspan="1">Buyruqdan ko'chirma</th>
+                            <th colspan="1" rowspan="2">Bitirgan</th>
+                            <th colspan="1" rowspan="2">Achsleniya</th>
+                            <th rowspan="2" colspan="1">Reyting</th>
+                            <th rowspan="2" colspan="1">MD</th>
+                            <th rowspan="2" colspan="1">Harakat</th>
                         </tr>
-                    </thead> 
+                        <tr>
+                            <th rowspan="1" colspan="1" >Universitet</th>
+                            <th rowspan="1" colspan="1" >kollej</th>
+                            <th rowspan="1" colspan="1" >Atestat</th>
+                            <th rowspan="1" colspan="1" >1-kurs</th>
+                            <th rowspan="1" colspan="1" >2-kurs</th>
+                        </tr>
+                    </thead>
                     <tbody id="content">
-                        {% for abuturiyent_data in page_obj %}
+                        {% for magister_data in page_obj %}
                         <tr>
                             <td>
                                 {{ forloop.counter }}
                             </td>
                             <td>
-                                {{ abuturiyent_data.abuturiyent.abuturiyent_id }}
+                                {{ magister_data.magister.srtqi_id }} 
                             </td>
                             <td>
-                                <a href="{% url 'view_abuturiyent' abuturiyent_data.abuturiyent.id %}">
+                                <a href="{% url 'view_magister' magister_data.magister.id %}">
                                     <div class="d-flex justify-content-start align-items-center user-name">
-                                        <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ abuturiyent_data.abuturiyent.first_name }} {{ abuturiyent_data.abuturiyent.last_name }}</span><small
-                                                class="emp_post text-truncate text-muted">{{abuturiyent_data.abuturiyent.surname}}</small></div>
+                                        <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ magister_data.magister.first_name }} {{ magister_data.magister.last_name }}</span><small
+                                                class="emp_post text-truncate text-muted">{{magister_data.magister.surname}}</small></div>
                                     </div>
                                 </a>
                             </td>
-                            <td>
-                                {{ abuturiyent_data.abuturiyent.birthday }}
-                            </td>
-                            {% for doc in abuturiyent_data.documents %}
+                            {% for doc in magister_data.documents %}
                                 <td>
                                     {% if doc.is_available %}
                                         <span class="badge  bg-label-success">Bor</span> <br>
@@ -98,10 +106,10 @@
                                 <div class="d-inline-block"><a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow me-1"
                                         data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded bx-md"></i></a>
                                     <div class="dropdown-menu dropdown-menu-end m-0">
-                                        <a href="{% url 'view_abuturiyent' abuturiyent_data.abuturiyent.id %}" class="dropdown-item">Ko'rish <i class="bx bx-show bx-md"></i></a>
-                                        <a href="{% url 'edit_abuturiyent' abuturiyent_data.abuturiyent.id %}" class="dropdown-item">Taxrirlash <i class="bx bx-edit bx-md"></i></a>
+                                        <a href="{% url 'view_magister' magister_data.magister.id %}" class="dropdown-item">Ko'rish <i class="bx bx-show bx-md"></i></a>
+                                        <a href="{% url 'edit_magister' magister_data.magister.id %}" class="dropdown-item">Taxrirlash <i class="bx bx-edit bx-md"></i></a>
                                         <div class="dropdown-divider"></div>
-                                        <button type="button" class="dropdown-item text-danger delete-record" data-bs-toggle="modal" data-bs-target="#deleteModal" data-abuturiyent-id="{{ abuturiyent_data.abuturiyent.id }}">
+                                        <button type="button" class="dropdown-item text-danger delete-record" data-bs-toggle="modal" data-bs-target="#deleteModal" data-magister-id="{{ magister_data.magister.id }}">
                                             O'chirish <i class="bx bx-trash bx-md"></i>
                                         </button>
                                     </div>
@@ -197,8 +205,8 @@
 
         deleteModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            const abuturiyentId = button.getAttribute('data-abuturiyent-id');
-            deleteForm.action = '{% url "delete_abuturiyent" 0 %}'.replace('/0/', '/' + abuturiyentId + '/');
+            const magisterId = button.getAttribute('data-magister-id');
+            deleteForm.action = '{% url "delete_magister" 0 %}'.replace('/0/', '/' + magisterId + '/');
         });
     });
 </script>

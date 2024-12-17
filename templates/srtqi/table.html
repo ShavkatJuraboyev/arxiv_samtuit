@@ -14,7 +14,7 @@
                     </div>
                     <div class="dt-action-buttons text-end pt-6 pt-md-0">
                         <div class="dt-buttons btn-group flex-wrap">
-                            <a href="{% url 'add_abuturiyent'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
+                            <a href="{% url 'add_srtqistudent'%}" class="btn btn-secondary create-new btn-primary" style="color: aliceblue;">
                                 <span>
                                     <i class="bx bx-plus bx-sm me-sm-2"></i>
                                     <span class="d-none d-sm-inline-block">Ma'lumot qo'shish</span>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end mt-n6 mt-md-0">
-                        <form method="get" action="{% url 'abuturiyent_documents_table' %}">
+                        <form method="get" action="{% url 'srtqistudent_documents_table' %}">
                             <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                 <label>Qidirish:
                                     <input type="search"  name="q" class="form-control" placeholder="qidirish..." aria-controls="DataTables_Table_0">
@@ -52,40 +52,50 @@
                         </form>
                     </div>
                 </div>
-                <table class="dt-complex-header table table-bordered dataTable no-footer" id="DataTables_Table_1"
-                    aria-describedby="DataTables_Table_1_info" style="width: 1392px;">
+                <table class="dt-complex-header table table-bordered dataTable no-footer" style="width: 1392px;">
                     <thead>
                         <tr>
-                            <th style="width: 20px;">T/R</th>
-                            <th style="width: 88px;">Abituriyent ID</th>
-                            <th class="sorting sorting_asc">Abituriyent</th>
-                            <th>Tugilgan yili</th>
-                            <th>Diplom</th>
-                            <th>Atestatsiya</th>
-                            <th class="sorting_disabled" style="width: 88px;">Harakat</th>
+                            <th rowspan="2" colspan="1" style="width: 15px;">T/R</th>
+                            <th rowspan="2" colspan="1" style="width: 100px;">ID_raqam</th>
+                            <th rowspan="2" colspan="1" style="width: 150px;">Talaba F.I.Sh
+                            </th>
+                            <th colspan="3" rowspan="1">Diplom</th>
+                            <th colspan="5" rowspan="1">Buyruqdan ko'chirma</th>
+                            <th colspan="1" rowspan="2">Bitirgan</th>
+                            <th colspan="1" rowspan="2">Achsleniya</th>
+                            <th rowspan="2" colspan="1">Reyting</th>
+                            <th rowspan="2" colspan="1">BMI</th>
+                            <th rowspan="2" colspan="1">Harakat</th>
                         </tr>
-                    </thead> 
-                    <tbody id="content">
-                        {% for abuturiyent_data in page_obj %}
+                        <tr>
+                            <th class="sorting" rowspan="1" colspan="1" >Universitet</th>
+                            <th class="sorting" rowspan="1" colspan="1" >kollej</th>
+                            <th class="sorting" rowspan="1" colspan="1" >Atestat</th>
+                            <th class="sorting" rowspan="1" colspan="1" >1-kurs</th>
+                            <th class="sorting" rowspan="1" colspan="1" >2-kurs</th>
+                            <th class="sorting" rowspan="1" colspan="1" >3-kurs</th>
+                            <th class="sorting" rowspan="1" colspan="1" >4-kurs</th>
+                            <th class="sorting" rowspan="1" colspan="1" >5-kurs</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        {% for srtqistudent_data in page_obj %}
                         <tr>
                             <td>
                                 {{ forloop.counter }}
                             </td>
                             <td>
-                                {{ abuturiyent_data.abuturiyent.abuturiyent_id }}
+                                {{ srtqistudent_data.srtqistudent.srtqi_id }}
                             </td>
                             <td>
-                                <a href="{% url 'view_abuturiyent' abuturiyent_data.abuturiyent.id %}">
+                                <a href="{% url 'view_srtqistudent' srtqistudent_data.srtqistudent.id %}">
                                     <div class="d-flex justify-content-start align-items-center user-name">
-                                        <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ abuturiyent_data.abuturiyent.first_name }} {{ abuturiyent_data.abuturiyent.last_name }}</span><small
-                                                class="emp_post text-truncate text-muted">{{abuturiyent_data.abuturiyent.surname}}</small></div>
+                                        <div class="d-flex flex-column"><span class="emp_name text-truncate">{{ srtqistudent_data.srtqistudent.first_name }} {{ srtqistudent_data.srtqistudent.last_name }}</span><small
+                                                class="emp_post text-truncate text-muted">{{srtqistudent_data.srtqistudent.surname}}</small></div>
                                     </div>
                                 </a>
                             </td>
-                            <td>
-                                {{ abuturiyent_data.abuturiyent.birthday }}
-                            </td>
-                            {% for doc in abuturiyent_data.documents %}
+                            {% for doc in srtqistudent_data.documents %}
                                 <td>
                                     {% if doc.is_available %}
                                         <span class="badge  bg-label-success">Bor</span> <br>
@@ -98,10 +108,10 @@
                                 <div class="d-inline-block"><a href="javascript:;" class="btn btn-icon dropdown-toggle hide-arrow me-1"
                                         data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded bx-md"></i></a>
                                     <div class="dropdown-menu dropdown-menu-end m-0">
-                                        <a href="{% url 'view_abuturiyent' abuturiyent_data.abuturiyent.id %}" class="dropdown-item">Ko'rish <i class="bx bx-show bx-md"></i></a>
-                                        <a href="{% url 'edit_abuturiyent' abuturiyent_data.abuturiyent.id %}" class="dropdown-item">Taxrirlash <i class="bx bx-edit bx-md"></i></a>
+                                        <a href="{% url 'view_srtqistudent' srtqistudent_data.srtqistudent.id %}" class="dropdown-item">Ko'rish <i class="bx bx-show bx-md"></i></a>
+                                        <a href="{% url 'edit_srtqistudent' srtqistudent_data.srtqistudent.id %}" class="dropdown-item">Taxrirlash <i class="bx bx-edit bx-md"></i></a>
                                         <div class="dropdown-divider"></div>
-                                        <button type="button" class="dropdown-item text-danger delete-record" data-bs-toggle="modal" data-bs-target="#deleteModal" data-abuturiyent-id="{{ abuturiyent_data.abuturiyent.id }}">
+                                        <button type="button" class="dropdown-item text-danger delete-record" data-bs-toggle="modal" data-bs-target="#deleteModal" data-srtqistudent-id="{{ srtqistudent_data.srtqistudent.id }}">
                                             O'chirish <i class="bx bx-trash bx-md"></i>
                                         </button>
                                     </div>
@@ -197,8 +207,8 @@
 
         deleteModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            const abuturiyentId = button.getAttribute('data-abuturiyent-id');
-            deleteForm.action = '{% url "delete_abuturiyent" 0 %}'.replace('/0/', '/' + abuturiyentId + '/');
+            const srtqistudentId = button.getAttribute('data-srtqistudent-id');
+            deleteForm.action = '{% url "delete_srtqistudent" 0 %}'.replace('/0/', '/' + srtqistudentId + '/');
         });
     });
 </script>

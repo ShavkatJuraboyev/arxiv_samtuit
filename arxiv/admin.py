@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Student, Document, Location, Employee, DocumentEmployee, Abuturiyent, DocumentAbuturiyent
+from .models import Student, Document, Location, Employee, DocumentEmployee, Abuturiyent, DocumentAbuturiyent, SrtqiStudent, DocumentSrtqiStudent, Magister, DocumentMagister
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('room', 'shelf', 'row')
-    search_fields = ('room', 'shelf', 'row')
+    list_display = ('room', 'shelf')
+    search_fields = ('room', 'shelf')
 
 class DocumentInline(admin.TabularInline):
     model = Document
@@ -24,7 +24,7 @@ class DocumentEmployeeInline(admin.TabularInline):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'employee_id', 'graduation_year')
+    list_display = ('first_name', 'last_name', 'employee_id', 'gone_year')
     search_fields = ('first_name', 'last_name', 'employee_id')
     inlines = [DocumentEmployeeInline]
 
@@ -39,3 +39,24 @@ class AbuturiyentAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name', 'abuturiyent_id')
     inlines = [DocumentAbuturiyentInline]
 
+class DocumentMagisterInline(admin.TabularInline):
+    model = DocumentMagister
+    extra = 1
+    fields = ('doc_type', 'is_available')
+
+@admin.register(Magister)
+class MagisterAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'srtqi_id', 'graduation_year')
+    search_fields = ('first_name', 'last_name', 'srtqi_id')
+    inlines = [DocumentMagisterInline]
+
+class DocumentSrtqiStudentInline(admin.TabularInline):
+    model = DocumentSrtqiStudent
+    extra = 1
+    fields = ('doc_type', 'is_available')
+
+@admin.register(SrtqiStudent)
+class DocumentSrtqiStudentAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'srtqi_id', 'graduation_year')
+    search_fields = ('first_name', 'last_name', 'srtqi_id')
+    inlines = [DocumentSrtqiStudentInline]

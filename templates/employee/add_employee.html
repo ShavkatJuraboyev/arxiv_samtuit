@@ -23,12 +23,16 @@
                             <input type="text" id="last_name" name="last_name" class="form-control" value="{{ employee.last_name }}" required placeholder="Familiya...">
                         </div>
                         <div class="mb-3">
-                            <label for="surname" class="form-label">O'chistva:</label>
+                            <label for="surname" class="form-label">Otasining ismi:</label>
                             <input type="text" id="surname" name="surname" class="form-control" value="{{ employee.surname }}" required placeholder="Otasini ismi...">
                         </div>
                         <div class="mb-3">
+                            <label for="birthday" class="form-label">Tug'ilgan yil:</label>
+                            <input type="date" id="birthday" name="birthday" class="form-control" value="{{ employee.birthday }}" required >
+                        </div>
+                        <div class="mb-3">
                             <label for="employee_id" class="form-label">Xodim ID:</label>
-                            <input type="text" id="employee_id" name="employee_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ employee.employee_id }}" required placeholder="T-1">
+                            <input type="text" id="employee_id" name="employee_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ employee.employee_id }}" required placeholder="X-1">
                             {% if error %}
                             <div class="invalid-feedback">
                                 {{ error }}
@@ -36,12 +40,16 @@
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label for="graduation_year" class="form-label">Ishdab ketgan yil:</label>
-                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ employee.graduation_year }}" placeholder="2024">
+                            <label for="arrived_year" class="form-label">Ishga kelgan yil:</label>
+                            <input type="text" id="arrived_year" name="arrived_year" class="form-control" value="{{ employee.arrived_year }}" placeholder="2024-yil">
                         </div>
                         <div class="mb-3">
-                            <label for="location" class="form-label">Hujjat joylashuv joyi <button type="button" class="btn text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                                <i class='bx bx-plus-medical'></i> </button></label>
+                            <label for="gone_year" class="form-label">Ishdan ketgan yil:</label>
+                            <input type="text" id="gone_year" name="gone_year" class="form-control" value="{{ employee.gone_year }}" placeholder="2024-yil">
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Hujjat joylashuv joyi <a href="{% url 'add_location' %}" class="btn text-primary ms-2">
+                                <i class='bx bx-plus-medical'></i> </a></label>
                                 <select name="location" class="form-select">
                                     <option value="" selected>Location tanlang</option>
                                     {% for location in locations %}
@@ -66,9 +74,8 @@
                                     <td>
                                         <select name="doc_type[]" class="form-select">
                                             <option value="" selected>-----------</option>
-                                            <option value="turdavoy" {% if doc.doc_type == "turdavoy" %}selected{% endif %}>Turdavoy</option>
+                                            <option value="turdavoy" {% if doc.doc_type == "turdavoy" %}selected{% endif %}>Mexnat daftarcha</option>
                                             <option value="t-2" {% if doc.doc_type == "t-2" %}selected{% endif %}>T-2</option>
-                                            <option value="kadrlar" {% if doc.doc_type == "kadrlar" %}selected{% endif %}>Kadrlar</option>
                                         </select>
                                     </td>
                                     <td>
@@ -85,40 +92,6 @@
                         <button type="submit" class="btn btn-success"><i class='bx bxs-save' ></i> Saqlash</button>
                     </form>
                 </div>
-                <!-- Modal for Adding Locations -->
-                <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form id="addLocationForm">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addLocationLabel">Yangi joy qo'shish</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="room" class="form-label">Hona</label>
-                                        <input type="text" id="room" name="room" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="shelf" class="form-label">Shkaf</label>
-                                        <input type="text" id="shelf" name="shelf" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="row" class="form-label">Polka</label>
-                                        <input type="text" id="row" name="row" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Yopish</button>
-                                    <button type="submit" class="btn btn-primary">Saqlash</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -133,9 +106,8 @@
             <td>
                 <select name="doc_type[]" class="form-select">
                     <option value="" selected>-----------</option>
-                    <option value="turdavoy" {% if doc.doc_type == "turdavoy" %}selected{% endif %}>Turdavoy</option>
+                    <option value="turdavoy" {% if doc.doc_type == "turdavoy" %}selected{% endif %}>Mexnat daftarcha</option>
                     <option value="t-2" {% if doc.doc_type == "t-2" %}selected{% endif %}>T-2</option>
-                    <option value="kadrlar" {% if doc.doc_type == "kadrlar" %}selected{% endif %}>Kadrlar</option>
                 </select>
             </td>
             <td>
@@ -154,41 +126,6 @@
         const row = button.closest("tr");
         row.remove();
     }
-</script>
-<script>
-    document.getElementById("addLocationForm").addEventListener("submit", function (event) {
-event.preventDefault();
-const formData = new FormData(this);
-
-fetch("{% url 'add_location' %}", {
-    method: "POST",
-    body: formData,
-    headers: {
-        "X-CSRFToken": "{{ csrf_token }}",
-    },
-})
-    .then((response) => response.json())
-    .then((data) => {
-        if (data.success) {
-            // Add the new location to the dropdown
-            const locationSelect = document.getElementById("locationSelect");
-            const newOption = document.createElement("option");
-            newOption.value = data.location.id;
-            newOption.textContent = `Hona: ${data.location.room}, Shkaf: ${data.location.shelf}, Polka: ${data.location.row}`;
-            locationSelect.appendChild(newOption);
-
-            // Close the modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById("addLocationModal"));
-            modal.hide();
-
-            // Clear the form
-            this.reset();
-        } else {
-            alert("Xatolik yuz berdi!");
-        }
-    });
-});
-
 </script>
 {% endblock content %}
     

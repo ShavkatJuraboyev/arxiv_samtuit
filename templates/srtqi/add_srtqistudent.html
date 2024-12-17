@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block content %}    
+{% block content %}   
 <div class="container-xxl flex-grow-1 container-p-y">
 
     <!-- DataTable with Buttons -->
@@ -10,29 +10,29 @@
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <div class="container mt-5">
                     <div class="head-label">
-                        <h4 class="card-title mb-0">Abituriyent qo'shish</h4>
+                        <h4 class="card-title mb-0">Srtqis tudent qo'shish</h4>
                     </div>
-                    <form action="{% url 'add_abuturiyent' %}" method="post">
+                    <form action="{% url 'add_srtqistudent' %}" method="post">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="first_name" class="form-label">Ism:</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ abuturiyent.first_name }}" required placeholder="Ism...">
+                            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ srtqistudent.first_name }}" required placeholder="Ism...">
                         </div>
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Familiya:</label>
-                            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ abuturiyent.last_name }}" required placeholder="Familiya...">
+                            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ srtqistudent.last_name }}" required placeholder="Familiya...">
                         </div>
                         <div class="mb-3">
-                            <label for="surname" class="form-label">Otasining ismi:</label>
-                            <input type="text" id="surname" name="surname" class="form-control" value="{{ abuturiyent.surname }}" required placeholder="Otasini ismi...">
+                            <label for="surname" class="form-label">Otasini ismi:</label>
+                            <input type="text" id="surname" name="surname" class="form-control" value="{{ srtqistudent.surname }}" required placeholder="Otasini ismi...">
                         </div>
                         <div class="mb-3">
-                            <label for="birthday" class="form-label">Tug'ilgan yili:</label>
-                            <input type="date" id="birthday" name="birthday" class="form-control" value="{{ abuturiyent.birthday }}" required >
+                            <label for="birthday" class="form-label">Tug'ilgan yil:</label>
+                            <input type="date" id="birthday" name="birthday" class="form-control" value="{{ srtqistudent.birthday }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="abuturiyent_id" class="form-label">Abituriyent ID:</label>
-                            <input type="text" id="abuturiyent_id" name="abuturiyent_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ abuturiyent.abuturiyent_id }}" required placeholder="T-1">
+                            <label for="srtqi_id" class="form-label">Srtqi student ID:</label>
+                            <input type="text" id="srtqi_id" name="srtqi_id" class="form-control {% if error %}is-invalid{% endif %}" value="{{ srtqistudent.srtqi_id }}" required placeholder="T-1">
                             {% if error %}
                             <div class="invalid-feedback">
                                 {{ error }}
@@ -40,8 +40,8 @@
                             {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label for="graduation_year" class="form-label">Hujjat topshirgan yil:</label>
-                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ abuturiyent.graduation_year }}" placeholder="2024">
+                            <label for="graduation_year" class="form-label">Tugatgan yil / Achisleniya bo'lgan yil:</label>
+                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ srtqistudent.graduation_year }}" placeholder="2024">
                         </div>
                         <div class="mb-3">
                             <label for="location" class="form-label">Hujjat joylashuv joyi <a href="{% url 'add_location' %}" class="btn text-primary ms-2">
@@ -70,8 +70,18 @@
                                     <td>
                                         <select name="doc_type[]" class="form-select">
                                             <option value="" selected>-----------</option>
-                                            <option value="diplom" {% if doc.doc_type == "diplom" %}selected{% endif %}>Diplom</option>
-                                            <option value="atestatsiya" {% if doc.doc_type == "atestatsiya" %}selected{% endif %}>Atestatsiya</option>
+                                            <option value="diplom1" {% if doc.doc_type == "diplom1" %}selected{% endif %}>Diplom Universitet</option>
+                                            <option value="diplom1" {% if doc.doc_type == "diplom2" %}selected{% endif %}>Diplom Kollej</option>
+                                            <option value="atestat" {% if doc.doc_type == "atestat" %}selected{% endif %}>Atestat</option>
+                                            <option value="buyruq1" {% if doc.doc_type == "buyruq1" %}selected{% endif %}>Buyruqdan ko'chirma 1-kurs</option>
+                                            <option value="buyruq2" {% if doc.doc_type == "buyruq2" %}selected{% endif %}>Buyruqdan ko'chirma 2-kurs</option>
+                                            <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
+                                            <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
+                                            <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                                            <option value="bitirgan" {% if doc.doc_type == "bitirgan" %}selected{% endif %}>Bitirgan</option>
+                                            <option value="achsleniya" {% if doc.doc_type == "achsleniya" %}selected{% endif %}>Achsleniya</option>
+                                            <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
+                                            <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
                                         </select>
                                     </td>
                                     <td>
@@ -92,6 +102,7 @@
         </div>
     </div>
 </div>
+
 <script defer>
     // Document qo'shish uchun yangi satr qo'shish funksiyasi
     function addDocumentRow() {
@@ -102,8 +113,18 @@
             <td>
                 <select name="doc_type[]" class="form-select">
                     <option value="" selected>-----------</option>
-                    <option value="diplom" {% if doc.doc_type == "diplom" %}selected{% endif %}>Diplom</option>
-                    <option value="atestatsiya" {% if doc.doc_type == "atestatsiya" %}selected{% endif %}>Atestatsiya</option>
+                    <option value="diplom1" {% if doc.doc_type == "diplom1" %}selected{% endif %}>Diplom Universitet</option>
+                    <option value="diplom1" {% if doc.doc_type == "diplom2" %}selected{% endif %}>Diplom Kollej</option>
+                    <option value="atestat" {% if doc.doc_type == "atestat" %}selected{% endif %}>Atestat</option>
+                    <option value="buyruq1" {% if doc.doc_type == "buyruq1" %}selected{% endif %}>Buyruqdan ko'chirma 1-kurs</option>
+                    <option value="buyruq2" {% if doc.doc_type == "buyruq2" %}selected{% endif %}>Buyruqdan ko'chirma 2-kurs</option>
+                    <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
+                    <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
+                    <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                    <option value="bitirgan" {% if doc.doc_type == "bitirgan" %}selected{% endif %}>Bitirgan</option>
+                    <option value="achsleniya" {% if doc.doc_type == "achsleniya" %}selected{% endif %}>Achsleniya</option>
+                    <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
+                    <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
                 </select>
             </td>
             <td>
@@ -122,6 +143,9 @@
         const row = button.closest("tr");
         row.remove();
     }
+</script>
+
+
 </script>
 {% endblock content %}
     

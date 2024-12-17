@@ -9,35 +9,33 @@
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                 <div class="container mt-5">
                     <div class="head-label">
-                        <h4 class="card-title mb-0">Studentni tahrirlash</h4>
+                        <h4 class="card-title mb-0">Magistr talaba tahrirlash</h4>
                     </div>
                     <form method="POST" action="">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="first_name" class="form-label">Ism:</label>
-                            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ student.first_name }}" required placeholder="Ism...">
+                            <input type="text" id="first_name" name="first_name" class="form-control" value="{{ magister.first_name }}" required placeholder="Ism...">
                         </div>
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Familiya:</label>
-                            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ student.last_name }}" required placeholder="Familiya...">
+                            <input type="text" id="last_name" name="last_name" class="form-control" value="{{ magister.last_name }}" required placeholder="Familiya...">
                         </div>
                         <div class="mb-3">
                             <label for="surname" class="form-label">Otasining ismi:</label>
-                            <input type="text" id="surname" name="surname" class="form-control" value="{{ student.surname }}" required placeholder="Otasining ismi...">
+                            <input type="text" id="surname" name="surname" class="form-control" value="{{ magister.surname }}" required placeholder="Otasining ismi...">
                         </div>
                         <div class="mb-3">
                             <label for="birthday" class="form-label">Tug'ilgan yil:</label>
-                            <input type="date" id="birthday" name="birthday" class="form-control" 
-                                   value="{{ student.birthday|date:'Y-m-d' }}" required>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="student_id" class="form-label">Student ID:</label>
-                            <input type="text" id="student_id" name="student_id" class="form-control" value="{{ student.student_id }}" required placeholder="T-1">
+                            <input type="date" id="birthday" name="birthday" class="form-control" value="{{ magister.birthday|date:'Y-m-d' }}" required placeholder="Tug'ilgan yil...">
                         </div>
                         <div class="mb-3">
-                            <label for="graduation_year" class="form-label">Tugatgan yil:</label>
-                            <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ student.graduation_year }}" placeholder="2024">
+                            <label for="srtqi_id" class="form-label">Magister ID:</label>
+                            <input type="text" id="srtqi_id" name="srtqi_id" class="form-control" value="{{ magister.srtqi_id }}" required placeholder="M-1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="graduation_year" class="form-label">Magstrni tugatgan yil:</label>
+                            <input type="text" id="graduation_year" name="graduation_year" class="form-control" value="{{ magister.graduation_year }}" placeholder="2024-yil">
                         </div>
                         <div class="mb-3">
                             <label for="location" class="form-label">Hujjat Turgan joy <a href="{% url 'add_location' %}" class="btn text-primary ms-2">
@@ -45,7 +43,7 @@
                                 <select name="location" class="form-select">
                                     <option> -----------</option>
                                     {% for location in locations %}
-                                    <option value="{{ location.id }}" {% if student.location.id == location.id %}selected{% endif %}>
+                                    <option value="{{ location.id }}" {% if magister.location.id == location.id %}selected{% endif %}>
                                         {{ location }}
                                     </option>
                                     {% endfor %}
@@ -62,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody id="documentTableBody">
-                                {% for document in student.documents.all %}
+                                {% for document in magister.documents.all %}
                                 <tr id="document_{{ document.id }}">
                                     <td>
                                         <select name="doc_type[]" class="form-select">
@@ -88,7 +86,7 @@
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                             <i class="bx bx-trash bx-md"></i>  O'chirish 
                         </button>
-                        <a href="{% url 'view_student' student.id %}" class="btn btn-info"><i class="bx bx-show bx-md"></i> Ko'rish</a>
+                        <a href="{% url 'view_magister' magister.id %}" class="btn btn-info"><i class="bx bx-show bx-md"></i> Ko'rish</a>
                         <button type="submit" class="btn btn-success"><i class='bx bxs-save' ></i> Saqlash</button>
                         
                     </form>
@@ -96,7 +94,7 @@
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{% url 'delete_student' student.id %}" method="post">
+                            <form action="{% url 'delete_magister' magister.id %}" method="post">
                                 {% csrf_token %}
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="deleteModalLabel">
@@ -131,7 +129,7 @@
             <td>
                 <select name="new_doc_type[]" class="form-select">
                     <option value="" selected>-----------</option>
-                    {% for value, label in student.documents.model.DOCUMENT_TYPES %}
+                    {% for value, label in magister.documents.model.DOCUMENT_TYPES %}
                         <option value="{{ value }}">{{ label }}</option>
                     {% endfor %}
                 </select>
@@ -161,7 +159,7 @@
     
         // Send AJAX request to update the document's availability
         var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;  // CSRF token for security
-        var url = '{% url "update_document_availability" %}';  // URL to handle the AJAX request
+        var url = '{% url "update_document_magister_availability" %}';  // URL to handle the AJAX request
     
         var data = {
             'document_id': documentId,
@@ -169,7 +167,7 @@
         };
 
         // AJAX so'rovini yuborish, CSRF tokeni headerda qo'shilgan holda
-        fetch('/update/document/availability/', {
+        fetch('/update/document/magister/availability/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,7 +179,7 @@
         .then(data => {
             // Javobni qayta ishlash
             console.log(data);
-        })
+        }) 
         .catch(error => {
             console.error('Xato:', error);
         });

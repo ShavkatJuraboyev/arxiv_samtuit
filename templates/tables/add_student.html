@@ -23,8 +23,12 @@
                             <input type="text" id="last_name" name="last_name" class="form-control" value="{{ student.last_name }}" required placeholder="Familiya...">
                         </div>
                         <div class="mb-3">
-                            <label for="surname" class="form-label">O'chistva:</label>
+                            <label for="surname" class="form-label">Otasini ismi:</label>
                             <input type="text" id="surname" name="surname" class="form-control" value="{{ student.surname }}" required placeholder="Otasini ismi...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="birthday" class="form-label">Tug'ilgan yil:</label>
+                            <input type="date" id="birthday" name="birthday" class="form-control" value="{{ student.birthday }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="student_id" class="form-label">Student ID:</label>
@@ -40,8 +44,8 @@
                             <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ student.graduation_year }}" placeholder="2024">
                         </div>
                         <div class="mb-3">
-                            <label for="location" class="form-label">Hujjat joylashuv joyi <button type="button" class="btn text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                                <i class='bx bx-plus-medical'></i> </button></label>
+                            <label for="location" class="form-label">Hujjat Turgan joyi: <a href="{% url 'add_location' %}" class="btn text-primary ms-2">
+                                <i class='bx bx-plus-medical'></i> </a></label>
                                 <select name="location" class="form-select">
                                     <option value="" selected>Location tanlang</option>
                                     {% for location in locations %}
@@ -73,7 +77,7 @@
                                             <option value="buyruq2" {% if doc.doc_type == "buyruq2" %}selected{% endif %}>Buyruqdan ko'chirma 2-kurs</option>
                                             <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
                                             <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
-                                            <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                                            <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Bitirgan</option>
                                             <option value="achsleniya" {% if doc.doc_type == "achsleniya" %}selected{% endif %}>Achsleniya</option>
                                             <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
                                             <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
@@ -93,40 +97,6 @@
                         <button type="button" class="btn btn-primary" onclick="addDocumentRow()"><i class='bx bx-plus-medical'></i> Bosha Document qo'shish</button>
                         <button type="submit" class="btn btn-success"><i class='bx bxs-save' ></i> Saqlash</button>
                     </form>
-                </div>
-                <!-- Modal for Adding Locations -->
-                <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form id="addLocationForm">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addLocationLabel">Yangi joy qo'shish</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="room" class="form-label">Hona</label>
-                                        <input type="text" id="room" name="room" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="shelf" class="form-label">Shkaf</label>
-                                        <input type="text" id="shelf" name="shelf" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="row" class="form-label">Polka</label>
-                                        <input type="text" id="row" name="row" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Yopish</button>
-                                    <button type="submit" class="btn btn-primary">Saqlash</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -149,7 +119,7 @@
                     <option value="buyruq2" {% if doc.doc_type == "buyruq2" %}selected{% endif %}>Buyruqdan ko'chirma 2-kurs</option>
                     <option value="buyruq3" {% if doc.doc_type == "buyruq3" %}selected{% endif %}>Buyruqdan ko'chirma 3-kurs</option>
                     <option value="buyruq4" {% if doc.doc_type == "buyruq4" %}selected{% endif %}>Buyruqdan ko'chirma 4-kurs</option>
-                    <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Buyruqdan ko'chirma 5-kurs</option>
+                    <option value="buyruq5" {% if doc.doc_type == "buyruq5" %}selected{% endif %}>Bitirgan</option>
                     <option value="achsleniya" {% if doc.doc_type == "achsleniya" %}selected{% endif %}>Achsleniya</option>
                     <option value="reyting" {% if doc.doc_type == "reyting" %}selected{% endif %}>Reyting</option>
                     <option value="bmi" {% if doc.doc_type == "bmi" %}selected{% endif %}>BMI</option>
@@ -174,51 +144,5 @@
     }
 </script>
 
-<!-- Avval jQuery kutubxonasini yuklang -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- So'ngra DataTables kutubxonasini yuklang (agar ishlatayotgan bo'lsangiz) -->
-<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
-<script>
-    document.getElementById("addLocationForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-
-    fetch("{% url 'add_location' %}", {
-        method: "POST",
-        body: formData,
-        headers: {
-            "X-CSRFToken": "{{ csrf_token }}",
-        },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        if (data.success) {
-            // Yangi joyni qo'shish
-            const locationSelect = document.getElementById("locationSelect");
-            const newOption = document.createElement("option");
-            newOption.value = data.location.id;
-            newOption.textContent = `Hona: ${data.location.room}, Shkaf: ${data.location.shelf}, Polka: ${data.location.row}`;
-            locationSelect.appendChild(newOption);
-
-            // Modalni yopish
-            const modalElement = document.getElementById("addLocationModal");
-            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
-            modalInstance.hide();
-
-            // Formani tozalash
-            this.reset();
-        } else {
-            alert("Xatolik yuz berdi!"); // Yoki serverdagi xatolikni ko'rsating
-        }
-    })
-    .catch((error) => {
-        console.error("Xato yuz berdi:", error);
-        alert("Xatolik yuz berdi!");
-    });
-});
-
-</script>
 {% endblock content %}
     

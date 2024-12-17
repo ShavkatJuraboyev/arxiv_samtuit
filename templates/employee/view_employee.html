@@ -4,11 +4,12 @@
     <h4 class="card-title mb-4">{{ employee.first_name }} {{ employee.last_name }} {{ employee.surname }} ma'lumotlari</h4>
     <div class="card">
         <div class="card-body">
+            <p><strong>Tugilgan yili:</strong> {{ employee.birthday }}</p>
             <p><strong>Xodim ID:</strong> {{ employee.employee_id }}</p>
-            <p><strong>Tugatgan yil:</strong> {{ employee.graduation_year }}</p>
+            <p><strong>Ishga kirgan yil:</strong> {{ employee.arrived_year }}</p>
+            <p><strong>Ishdan ketgan yil:</strong> {{ employee.gone_year }}</p>
             <p><strong>Hona:</strong> {{ employee.location.room }} - Xona</p>
             <p><strong>Shkaf:</strong> {{ employee.location.shelf }} - Shkaf</p>
-            <p><strong>Polka:</strong> {{ employee.location.row }} - polka</p>
             <h6>Hujjatlar:</h6>
             <table class="table table-bordered">
                 <thead>

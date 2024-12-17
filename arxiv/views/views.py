@@ -36,13 +36,13 @@ def user_login(request):
         forms = LoginForm()
     return render(request, 'tables/login.html')
 
-
-
+@login_decorator
 def logOut(request):
     logout(request)
     return redirect("user_login")
+ 
 
-
+@login_decorator
 def student_documents_table(request):
     students = Student.objects.all()[::-1] # barcha talabalar malumotni olish
     document_types = dict(Document.DOCUMENT_TYPES) # Hujjat turli 
@@ -79,7 +79,7 @@ def student_documents_table(request):
     ctx = {'page_obj':page_obj, 'document_types':document_types, 'students': students, 'segment':'student'}
     return render(request, 'tables/table.html', ctx)
 
-
+@login_decorator
 def view_student(request, student_id):
     try:
         student = Student.objects.get(id=student_id)
@@ -89,12 +89,13 @@ def view_student(request, student_id):
 
     return render(request, "tables/view_student.html", {"student": student, "documents": documents, 'segment':'student'})
 
-
+@login_decorator
 def add_student(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
         surname = request.POST.get("surname")
+        birthday = request.POST.get("birthday")
         student_id = request.POST.get("student_id")
         graduation_year = request.POST.get("graduation_year")
         # Birinchi `location` ni tanlash
@@ -104,6 +105,7 @@ def add_student(request):
             first_name=first_name,
             last_name=last_name,
             surname=surname,
+            birthday=birthday,
             student_id=student_id,
             graduation_year=graduation_year,
             location=Location.objects.get(id=location_id) if location_id else None,
@@ -125,30 +127,26 @@ def add_student(request):
     locations = Location.objects.all()
     return render(request, "tables/add_student.html",  {"locations": locations, 'segment':'student'})
 
-
-@csrf_exempt
+@login_decorator
 def add_location(request):
     if request.method == "POST":
-        room = request.POST.get("room")
-        shelf = request.POST.get("shelf")
-        row = request.POST.get("row")
+        room = request.POST.get("room", "").strip()
+        shelf = request.POST.get("shelf", "").strip()
+
+        # Xatoliklarni tekshirish
+        if not room or not shelf:
+            messages.error(request, "Barcha maydonlarni to'ldirish majburiy!")
+            return render(request, 'tables/add_lokatsion.html')
 
         # Yangi joyni yaratish
-        location = Location.objects.create(room=room, shelf=shelf, row=row)
+        Location.objects.create(room=room, shelf=shelf)
+        messages.success(request, "Joy muvaffaqiyatli qo'shildi!")
+        return redirect('add_location')  # Sahifani qayta yuklash yoki boshqa URLga o'tish
 
-        # Javob qaytarish
-        return JsonResponse({
-            'success': True,
-            'location': {
-                'id': location.id,
-                'room': location.room,
-                'shelf': location.shelf,
-                'row': location.row,
-            }
-        })
-    return JsonResponse({'success': False, 'message': 'Invalid request method'})
+    # GET so'rovda formani ko'rsatish
+    return render(request, 'tables/add_lokatsion.html')
 
-
+@login_decorator
 def edit_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     locations = Location.objects.all()
@@ -158,6 +156,7 @@ def edit_student(request, student_id):
         student.first_name = request.POST.get("first_name")
         student.last_name = request.POST.get("last_name")
         student.surname = request.POST.get("surname")
+        student.birthday = request.POST.get("birthday")
         student.student_id = request.POST.get("student_id")
         student.graduation_year = request.POST.get("graduation_year")
          # Birinchi `location` ni tanlash
@@ -200,12 +199,13 @@ def edit_student(request, student_id):
     return render(request, "tables/edit_student.html", {"student": student, "locations": locations, 'segment':'student'})
 
 
-  
+@login_decorator
 def delete_student(request, student_id):
     student = Student.objects.get(id=student_id)
     student.delete()
     return redirect("student_documents_table")
 
+@login_decorator
 @csrf_exempt
 def update_document_availability(request):
     if request.method == 'POST':

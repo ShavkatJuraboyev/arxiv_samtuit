@@ -26,6 +26,10 @@
                             <input type="text" id="surname" name="surname" class="form-control" value="{{ abuturiyent.surname }}" required placeholder="Otasining ismi...">
                         </div>
                         <div class="mb-3">
+                            <label for="birthday" class="form-label">Tug'ilgan yili:</label>
+                            <input type="date" id="birthday" name="birthday" class="form-control" value="{{ abuturiyent.birthday|date:'Y-m-d' }}" required >
+                        </div>
+                        <div class="mb-3">
                             <label for="abuturiyent_id" class="form-label">Abituriyent ID:</label>
                             <input type="text" id="abuturiyent_id" name="abuturiyent_id" class="form-control" value="{{ abuturiyent.abuturiyent_id }}" required placeholder="T-1">
                         </div>
@@ -34,15 +38,16 @@
                             <input type="number" id="graduation_year" name="graduation_year" class="form-control" value="{{ abuturiyent.graduation_year }}" placeholder="2024">
                         </div>
                         <div class="mb-3">
-                            <label for="location" class="form-label">Hujjat Turgan joy <button type="button" class="btn text-primary ms-2" data-bs-toggle="modal" data-bs-target="#addLocationModal">
-                                <i class='bx bx-plus-medical'></i> </button></label>
-                            <select name="location" class="form-select">
-                                {% for location in locations %}
-                                <option value="{{ location.id }}" {% if document.location == location %}selected{% endif %}>
-                                    {{ location }}
-                                </option>
-                                {% endfor %}
-                            </select>
+                            <label for="location" class="form-label">Hujjat Turgan joy <a href="{% url 'add_location' %}" class="btn text-primary ms-2">
+                                <i class='bx bx-plus-medical'></i> </a></label>
+                                <select name="location" class="form-select">
+                                    <option> -----------</option>
+                                    {% for location in locations %}
+                                    <option value="{{ location.id }}" {% if abuturiyent.location.id == location.id %}selected{% endif %}>
+                                        {{ location }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
                         </div>
 
                         <h3>Hujjatlar</h3>
@@ -87,39 +92,6 @@
                     </form>
                 </div>
                 <!-- Modal for Adding Locations -->
-                <div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form id="addLocationForm">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addLocationLabel">Yangi joy qo'shish</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="room" class="form-label">Hona</label>
-                                        <input type="text" id="room" name="room" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="shelf" class="form-label">Shkaf</label>
-                                        <input type="text" id="shelf" name="shelf" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="row" class="form-label">Polka</label>
-                                        <input type="text" id="row" name="row" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Yopish</button>
-                                    <button type="submit" class="btn btn-primary">Saqlash</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -152,7 +124,7 @@
     // Yangi dokument satrini qo'shish
     function addDocumentRow() {
         const tableBody = document.getElementById("documentTableBody");
-        const newRow = document.createElement("tr");
+        const newRow = document.createElement("tr"); 
 
         newRow.innerHTML = `
             <td>
