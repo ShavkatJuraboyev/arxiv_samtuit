@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECRET_KEY = 'django-insecure-lh(4^x+p%7ubx98qavjnf0&i-^a&wirpffbke^zrv7z%-j%495'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['arxiv.samtuit.uz', 'localhost', '127.0.0.1']
 
 
