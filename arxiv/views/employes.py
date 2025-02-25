@@ -21,7 +21,7 @@ def employee_documents_table(request):
             Q(surname__icontains=query) |
             Q(employee_id__icontains=query) |
             Q(gone_year__icontains=str(query)) | # gone_year raqam bo'lsa, str() bilan qidirish kerak
-            Q(arrived_year__icontains=str(query))
+            Q(arrived_year__icontains=str(query))  # arrived_year raqam bo'lsa, str() bilan qidirish kerak
         )
 
     # Talabalar va hujjatlarni qayta ishlash
