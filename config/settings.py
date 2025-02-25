@@ -29,6 +29,12 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 ALLOWED_HOSTS = ['arxiv.samtuit.uz', 'localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = ['https:/arxiv.samtuit.uz', 'https://www.arxiv.samtuit.uz']
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
