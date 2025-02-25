@@ -58,10 +58,12 @@
                         <tr>
                             <th style="width: 20px;">T/R</th>
                             <th style="width: 88px;">Xodim ID</th>
-                            <th >Xodimlar</th>
-                            <th>Turdavoy</th>
+                            <th >Xodim F.I.Sh</th>
+                            <th >Tug'ulgan yil</th>
+                            <th >Ishga kelgan yil</th>
+                            <th >Ishdan ketgan yil</th>
+                            <th>Mexnat daftarcha</th>
                             <th>T-2</th>
-                            <th>Kadrlar</th>
                             <th class="sorting_disabled" style="width: 88px;">Harakat</th>
                         </tr>
                     </thead>
@@ -81,6 +83,15 @@
                                                 class="emp_post text-truncate text-muted">{{employee_data.employee.surname}}</small></div>
                                     </div>
                                 </a>
+                            </td>
+                            <td>
+                                {{ employee_data.employee.birthday }} 
+                            </td>
+                            <td>
+                                {{ employee_data.employee.arrived_year }} 
+                            </td>
+                            <td>
+                                {{ employee_data.employee.gone_year }} 
                             </td>
                             {% for doc in employee_data.documents %}
                                 <td>

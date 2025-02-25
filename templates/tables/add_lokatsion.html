@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}   
+<div class="container-xxl flex-grow-1 container-p-y">
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    <!-- DataTable with Buttons -->
+    <div class="card">
+        <div class="card-datatable table-responsive">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div class="container mt-5">
+                    <div class="head-label">
+                        <h4 class="card-title mb-0">Yangi joy qo'shish</h4>
+                    </div>
+                    <form action="{% url 'add_location' %}" method="post">
+                        {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="room" class="form-label">Hona:</label>
+                                <input type="text" id="room" name="room" class="form-control" required placeholder="Hona raqami">
+                            </div>
+                            <div class="mb-3">
+                                <label for="shelf" class="form-label">Shkaf:</label>
+                                <input type="text" id="shelf" name="shelf" class="form-control" value="{{ student.shelf }}" required placeholder="Shkaf raqami">
+                            </div>
+                            <button type="submit" class="btn btn-success"><i class='bx bxs-save' ></i> Saqlash</button>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    

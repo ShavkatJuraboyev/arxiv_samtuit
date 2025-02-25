@@ -9,7 +9,7 @@ class StudentForm(forms.ModelForm):
 class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
-        fields = ['room', 'shelf', 'row']
+        fields = ['room', 'shelf']
 
 class DocumentForm(forms.ModelForm):
     class Meta:

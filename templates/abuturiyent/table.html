@@ -57,13 +57,14 @@
                     <thead>
                         <tr>
                             <th style="width: 20px;">T/R</th>
-                            <th style="width: 88px;">Abituriyent</th>
-                            <th class="sorting sorting_asc">Abituriyent</th>
+                            <th style="width: 88px;">Abituriyent ID</th>
+                            <th class="sorting sorting_asc">Abituriyent F.I.Sh</th>
+                            <th>Tugilgan yili</th>
                             <th>Diplom</th>
                             <th>Atestatsiya</th>
                             <th class="sorting_disabled" style="width: 88px;">Harakat</th>
                         </tr>
-                    </thead>
+                    </thead> 
                     <tbody id="content">
                         {% for abuturiyent_data in page_obj %}
                         <tr>
@@ -80,6 +81,9 @@
                                                 class="emp_post text-truncate text-muted">{{abuturiyent_data.abuturiyent.surname}}</small></div>
                                     </div>
                                 </a>
+                            </td>
+                            <td>
+                                {{ abuturiyent_data.abuturiyent.birthday }}
                             </td>
                             {% for doc in abuturiyent_data.documents %}
                                 <td>

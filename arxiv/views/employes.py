@@ -1,14 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from arxiv.models import Employee, DocumentEmployee, Location
 from arxiv.views.views import login_decorator
-from django.contrib import messages
 from django.http import HttpResponseNotFound, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
 import json
 from django.views.decorators.csrf import csrf_exempt
-from django.template.loader import render_to_string
 from django.db.models import Q
 
 
@@ -23,7 +20,8 @@ def employee_documents_table(request):
             Q(last_name__icontains=query) |
             Q(surname__icontains=query) |
             Q(employee_id__icontains=query) |
-            Q(graduation_year__icontains=str(query))  # graduation_year raqam bo'lsa, str() bilan qidirish kerak
+            Q(gone_year__icontains=str(query)) | # gone_year raqam bo'lsa, str() bilan qidirish kerak
+            Q(arrived_year__icontains=str(query))
         )
 
     # Talabalar va hujjatlarni qayta ishlash
@@ -48,14 +46,14 @@ def employee_documents_table(request):
     page_obj = paginator.get_page(page_number)
     ctx = {'page_obj':page_obj, 'document_types':document_types, 'employees': employees, 'segment':'employee'}
     return render(request, 'employee/table.html', ctx)
-
+ 
 @login_decorator
 def view_employee(request, employee_id):
     try:
         employee = Employee.objects.get(id=employee_id)
         documents = DocumentEmployee.objects.filter(employee=employee)
     except Employee.DoesNotExist:
-        return HttpResponseNotFound("Talaba topilmadi.")
+        return HttpResponseNotFound("Xaodim topilmadi.")
 
     return render(request, "employee/view_employee.html", {"employee": employee, "documents": documents, 'segment':'employee'})
 
@@ -65,8 +63,10 @@ def add_employee(request):
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
         surname = request.POST.get("surname")
+        birthday = request.POST.get("birthday")
         employee_id = request.POST.get("employee_id")
-        graduation_year = request.POST.get("graduation_year")
+        arrived_year = request.POST.get("arrived_year")
+        gone_year = request.POST.get("gone_year")
         # Birinchi `location` ni tanlash
         location_ids = request.POST.getlist("location")
         location_id = location_ids[0] if location_ids else None
@@ -74,8 +74,10 @@ def add_employee(request):
             first_name=first_name,
             last_name=last_name,
             surname=surname,
+            birthday=birthday,
             employee_id=employee_id,
-            graduation_year=graduation_year,
+            arrived_year=arrived_year,
+            gone_year=gone_year,
             location=Location.objects.get(id=location_id) if location_id else None,
         )
 
@@ -106,8 +108,10 @@ def edit_employee(request, employee_id):
         employee.first_name = request.POST.get("first_name")
         employee.last_name = request.POST.get("last_name")
         employee.surname = request.POST.get("surname")
+        employee.birthday = request.POST.get("birthday")
         employee.employee_id = request.POST.get("employee_id")
-        employee.graduation_year = request.POST.get("graduation_year")
+        employee.arrived_year = request.POST.get("arrived_year")
+        employee.gone_year = request.POST.get("gone_year")
          # Birinchi `location` ni tanlash
         location_ids = request.POST.getlist("location")
         location_id = location_ids[0] if location_ids else None
@@ -147,13 +151,11 @@ def edit_employee(request, employee_id):
 
     return render(request, "employee/edit_employee.html", {"employee": employee, "locations": locations, 'segment':'employee'})
 
-
 @login_decorator
 def delete_employee(request, employee_id):
     employee = Employee.objects.get(id=employee_id)
     employee.delete()
     return redirect("employee_documents_table")
-
 
 @login_decorator
 @csrf_exempt

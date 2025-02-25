@@ -15,6 +15,18 @@ from arxiv.views.abuturiyent import (
     update_document_abuturiyent_availability
     )
 
+from arxiv.views.magistr import (
+    magister_documents_table, add_magister, view_magister,
+    edit_magister, delete_magister,
+    update_document_magister_availability
+    )
+
+from arxiv.views.srtqi import (
+    srtqistudent_documents_table, add_srtqistudent, view_srtqistudent,
+    edit_srtqistudent, delete_srtqistudent,
+    update_document_srtqistudent_availability
+    )
+
 urlpatterns = [ 
     path('', student_documents_table, name="student_documents_table"),
     path('student/<int:student_id>/', view_student, name='view_student'),
@@ -40,4 +52,19 @@ urlpatterns = [
     path("abuturiyent/<int:abuturiyent_id>/edit/", edit_abuturiyent, name="edit_abuturiyent"),
     path('abuturiyent/<int:abuturiyent_id>/delete/', delete_abuturiyent, name='delete_abuturiyent'),
     path('update/document/abuturiyent/availability', update_document_abuturiyent_availability, name='update_document_abuturiyent_availability'),
+
+
+    path('magister/documents/table/', magister_documents_table, name="magister_documents_table"),
+    path('magister/<int:magistr_id>/', view_magister, name='view_magister'),
+    path('add/magister/', add_magister, name='add_magister'),
+    path("magister/<int:magistr_id>/edit/", edit_magister, name="edit_magister"),
+    path('magister/<int:magistr_id>/delete/', delete_magister, name='delete_magister'),
+    path('update/document/magister/availability/', update_document_magister_availability, name='update_document_magister_availability'),
+
+    path('srtqistudent/documents/table/', srtqistudent_documents_table, name="srtqistudent_documents_table"),
+    path('srtqistudent/<int:srtqistudent_id>/', view_srtqistudent, name='view_srtqistudent'),
+    path('add/srtqistudent/', add_srtqistudent, name='add_srtqistudent'),
+    path("srtqistudent/<int:srtqistudent_id>/edit/", edit_srtqistudent, name="edit_srtqistudent"),
+    path('srtqistudent/<int:srtqistudent_id>/delete/', delete_srtqistudent, name='delete_srtqistudent'),
+    path('update/document/srtqistudent/availability/', update_document_srtqistudent_availability, name='update_document_srtqistudent_availability'),
 ]
