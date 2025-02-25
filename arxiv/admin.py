@@ -15,7 +15,14 @@ class DocumentInline(admin.TabularInline):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'surname', 'student_id', 'graduation_year')
+    list_display = ('first_name', 'last_name', 'surname', 'student_id', 'graduation_year', 'get_documents')
+
+    def get_documents(self, obj):
+        doc_labels = dict(Document.DOCUMENT_TYPES)  # Key -> Value mapping yaratamiz
+        return ", ".join([doc_labels.get(doc.doc_type, doc.doc_type) for doc in obj.documents.all()])
+    
+    get_documents.short_description = 'Hujjatlar'
+
     search_fields = ('first_name', 'last_name', 'surname', 'student_id')
     list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentInline]
@@ -29,7 +36,14 @@ class DocumentEmployeeInline(admin.TabularInline):
  
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'surname', 'employee_id', 'gone_year')
+    list_display = ('first_name', 'last_name', 'surname', 'employee_id', 'gone_year', 'get_documents')
+
+    def get_documents(self, obj):
+        doc_labels = dict(DocumentEmployee.DOCUMENT_TYPES)  # Key -> Value mapping yaratamiz
+        return ", ".join([doc_labels.get(doc.doc_type, doc.doc_type) for doc in obj.documents.all()])
+    
+    get_documents.short_description = 'Hujjatlar'
+
     search_fields = ('first_name', 'last_name', 'surname', 'employee_id')
     list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentEmployeeInline]
@@ -43,7 +57,14 @@ class DocumentAbuturiyentInline(admin.TabularInline):
 
 @admin.register(Abuturiyent)
 class AbuturiyentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'surname', 'abuturiyent_id', 'graduation_year')
+    list_display = ('first_name', 'last_name', 'surname', 'abuturiyent_id', 'graduation_year', 'get_documents')
+
+    def get_documents(self, obj):
+        doc_labels = dict(DocumentAbuturiyent.DOCUMENT_TYPES)  # Key -> Value mapping yaratamiz
+        return ", ".join([doc_labels.get(doc.doc_type, doc.doc_type) for doc in obj.documents.all()])
+    
+    get_documents.short_description = 'Hujjatlar'
+
     search_fields = ('first_name', 'last_name', 'surname', 'abuturiyent_id')
     list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentAbuturiyentInline]
@@ -57,7 +78,14 @@ class DocumentMagisterInline(admin.TabularInline):
 
 @admin.register(Magister)
 class MagisterAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'surname', 'srtqi_id', 'graduation_year')
+    list_display = ('first_name', 'last_name', 'surname', 'srtqi_id', 'graduation_year', 'get_documents')
+
+    def get_documents(self, obj):
+        doc_labels = dict(DocumentMagister.DOCUMENT_TYPES)  # Key -> Value mapping yaratamiz
+        return ", ".join([doc_labels.get(doc.doc_type, doc.doc_type) for doc in obj.documents.all()])
+    
+    get_documents.short_description = 'Hujjatlar'
+
     search_fields = ('first_name', 'last_name', 'surname', 'srtqi_id')
     list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentMagisterInline]
@@ -71,7 +99,14 @@ class DocumentSrtqiStudentInline(admin.TabularInline):
 
 @admin.register(SrtqiStudent)
 class DocumentSrtqiStudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'surname', 'srtqi_id', 'graduation_year')
+    list_display = ('first_name', 'last_name', 'surname', 'srtqi_id', 'graduation_year', 'get_documents')
+
+    def get_documents(self, obj):
+        doc_labels = dict(DocumentSrtqiStudent.DOCUMENT_TYPES)  # Key -> Value mapping yaratamiz
+        return ", ".join([doc_labels.get(doc.doc_type, doc.doc_type) for doc in obj.documents.all()])
+    
+    get_documents.short_description = 'Hujjatlar'
+
     search_fields = ('first_name', 'last_name', 'surname', 'srtqi_id')
     list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentSrtqiStudentInline]
