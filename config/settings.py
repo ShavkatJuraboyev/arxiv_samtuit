@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-%r)ro+aofxvtb-=_gq1c3&9x8n!9mttp0v!)r@-wu0%fn_h!ew
 DEBUG = False
 ALLOWED_HOSTS = ['arxiv.samtuit.uz', 'localhost', '127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS = ['https:/arxiv.samtuit.uz', 'https://www.arxiv.samtuit.uz']
+CSRF_TRUSTED_ORIGINS = ['https://arxiv.samtuit.uz', 'https://www.arxiv.samtuit.uz']
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
