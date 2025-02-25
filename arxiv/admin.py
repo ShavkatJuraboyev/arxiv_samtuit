@@ -10,6 +10,8 @@ class DocumentInline(admin.TabularInline):
     model = Document
     extra = 1
     fields = ('doc_type', 'is_available')
+    verbose_name = 'Hujjat turi'
+    verbose_name_plural = 'Hujjatlar mavjudligi'
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
@@ -21,6 +23,8 @@ class DocumentEmployeeInline(admin.TabularInline):
     model = DocumentEmployee
     extra = 1
     fields = ('doc_type', 'is_available')
+    verbose_name = 'Hujjat turi'
+    verbose_name_plural = 'Hujjatlar mavjudligi'
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
@@ -32,6 +36,8 @@ class DocumentAbuturiyentInline(admin.TabularInline):
     model = DocumentAbuturiyent
     extra = 1
     fields = ('doc_type', 'is_available')
+    verbose_name = 'Hujjat turi'
+    verbose_name_plural = 'Hujjatlar mavjudligi'
 
 @admin.register(Abuturiyent)
 class AbuturiyentAdmin(admin.ModelAdmin):
@@ -43,6 +49,8 @@ class DocumentMagisterInline(admin.TabularInline):
     model = DocumentMagister
     extra = 1
     fields = ('doc_type', 'is_available')
+    verbose_name = 'Hujjat turi'
+    verbose_name_plural = 'Hujjatlar mavjudligi'
 
 @admin.register(Magister)
 class MagisterAdmin(admin.ModelAdmin):
@@ -54,6 +62,8 @@ class DocumentSrtqiStudentInline(admin.TabularInline):
     model = DocumentSrtqiStudent
     extra = 1
     fields = ('doc_type', 'is_available')
+    verbose_name = 'Hujjat turi'
+    verbose_name_plural = 'Hujjatlar mavjudligi'
 
 @admin.register(SrtqiStudent)
 class DocumentSrtqiStudentAdmin(admin.ModelAdmin):
