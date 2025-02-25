@@ -15,8 +15,9 @@ class DocumentInline(admin.TabularInline):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'student_id', 'graduation_year')
-    search_fields = ('first_name', 'last_name', 'student_id')
+    list_display = ('first_name', 'last_name', 'surname', 'student_id', 'graduation_year')
+    search_fields = ('first_name', 'last_name', 'surname', 'student_id')
+    list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentInline]
 
 class DocumentEmployeeInline(admin.TabularInline):
@@ -25,11 +26,12 @@ class DocumentEmployeeInline(admin.TabularInline):
     fields = ('doc_type', 'is_available')
     verbose_name = 'Hujjat turi'
     verbose_name_plural = 'Hujjatlar mavjudligi'
-
+ 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'employee_id', 'gone_year')
-    search_fields = ('first_name', 'last_name', 'employee_id')
+    list_display = ('first_name', 'last_name', 'surname', 'employee_id', 'gone_year')
+    search_fields = ('first_name', 'last_name', 'surname', 'employee_id')
+    list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentEmployeeInline]
 
 class DocumentAbuturiyentInline(admin.TabularInline):
@@ -41,8 +43,9 @@ class DocumentAbuturiyentInline(admin.TabularInline):
 
 @admin.register(Abuturiyent)
 class AbuturiyentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'abuturiyent_id', 'graduation_year')
-    search_fields = ('first_name', 'last_name', 'abuturiyent_id')
+    list_display = ('first_name', 'last_name', 'surname', 'abuturiyent_id', 'graduation_year')
+    search_fields = ('first_name', 'last_name', 'surname', 'abuturiyent_id')
+    list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentAbuturiyentInline]
 
 class DocumentMagisterInline(admin.TabularInline):
@@ -54,8 +57,9 @@ class DocumentMagisterInline(admin.TabularInline):
 
 @admin.register(Magister)
 class MagisterAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'srtqi_id', 'graduation_year')
-    search_fields = ('first_name', 'last_name', 'srtqi_id')
+    list_display = ('first_name', 'last_name', 'surname', 'srtqi_id', 'graduation_year')
+    search_fields = ('first_name', 'last_name', 'surname', 'srtqi_id')
+    list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentMagisterInline]
 
 class DocumentSrtqiStudentInline(admin.TabularInline):
@@ -67,6 +71,7 @@ class DocumentSrtqiStudentInline(admin.TabularInline):
 
 @admin.register(SrtqiStudent)
 class DocumentSrtqiStudentAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'srtqi_id', 'graduation_year')
-    search_fields = ('first_name', 'last_name', 'srtqi_id')
+    list_display = ('first_name', 'last_name', 'surname', 'srtqi_id', 'graduation_year')
+    search_fields = ('first_name', 'last_name', 'surname', 'srtqi_id')
+    list_filter = ('documents__doc_type',)  # Added filter for documents
     inlines = [DocumentSrtqiStudentInline]
